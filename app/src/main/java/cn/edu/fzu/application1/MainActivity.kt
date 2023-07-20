@@ -3,9 +3,11 @@ package cn.edu.fzu.application1
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.edu.fzu.application1.adapter.RvRecommendsAdapter
 import cn.edu.fzu.application1.adapter.RvServicesAdapter
 import cn.edu.fzu.application1.adapter.RvTasksAdapter
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
+import cn.edu.fzu.application1.entity.ItemRecommend
 import cn.edu.fzu.application1.entity.ItemService
 import cn.edu.fzu.application1.entity.ItemTask
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
@@ -15,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvServiceAdapter: RvServicesAdapter
     private lateinit var rvTaskAdapter: RvTasksAdapter
+    private lateinit var rvRecommendAdapter: RvRecommendsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,18 @@ class MainActivity : AppCompatActivity() {
                 ItemTask("看科普视频得金豆", R.drawable.ic_video, "15s得多看多得...","0/6","5金豆","去看看")
             ),
             LinearLayoutManager.VERTICAL
+        )
+
+        //设置RvRecommends
+        rvRecommendAdapter= RvRecommendsAdapter(R.layout.item_recommend,mutableListOf())
+        setupRecyclerView(
+            binding.rvRecommends, //传入recyclerView对象
+            rvRecommendAdapter,
+            listOf( //传入数据列表
+                ItemRecommend("腾讯视频会员周卡", R.drawable.ic_tencentvideo, "1000金豆"),
+                ItemRecommend("优酷视频会员周卡", R.drawable.ic_youku, "1500金豆"),
+            ),
+            LinearLayoutManager.HORIZONTAL
         )
     }
 }
