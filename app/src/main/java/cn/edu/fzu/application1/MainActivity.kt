@@ -19,23 +19,8 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //设置recyclerview
-        var servicesLayoutManager:LinearLayoutManager=
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvServices.layoutManager = servicesLayoutManager //用 binding.rvServices 替换 rv_service
-        //初始化adapter
+        //设置RvServices
         rvServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())
-        binding.rvServices.adapter=rvServiceAdapter
-
-        //给adapter添加数据
-        val data = listOf(
-            ItemService("充流量", R.drawable.ic_mobiledata, "流量告急速订购"),
-            ItemService("开通自动充", R.drawable.ic_autorecharge, "专治忘充值"),
-            ItemService("电子发票", R.drawable.ic_receipt, "批量开票不排队"),
-            ItemService("充值记录", R.drawable.ic_bill, "可查全网记录")
-        )
-        rvServiceAdapter.setList(data)
-
         setupRecyclerView(
             binding.rvServices, //传入recyclerView对象
             rvServiceAdapter,
