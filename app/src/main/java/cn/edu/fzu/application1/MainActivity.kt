@@ -3,10 +3,12 @@ package cn.edu.fzu.application1
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.edu.fzu.application1.adapter.RvCardsAdapter
 import cn.edu.fzu.application1.adapter.RvRecommendsAdapter
 import cn.edu.fzu.application1.adapter.RvServicesAdapter
 import cn.edu.fzu.application1.adapter.RvTasksAdapter
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
+import cn.edu.fzu.application1.entity.ItemCard
 import cn.edu.fzu.application1.entity.ItemRecommend
 import cn.edu.fzu.application1.entity.ItemService
 import cn.edu.fzu.application1.entity.ItemTask
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvServiceAdapter: RvServicesAdapter
     private lateinit var rvTaskAdapter: RvTasksAdapter
     private lateinit var rvRecommendAdapter: RvRecommendsAdapter
+    private lateinit var rvCardAdapter: RvCardsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +61,20 @@ class MainActivity : AppCompatActivity() {
             listOf( //传入数据列表
                 ItemRecommend("腾讯视频会员周卡", R.drawable.ic_tencentvideo, "1000金豆"),
                 ItemRecommend("优酷视频会员周卡", R.drawable.ic_youku, "1500金豆"),
+            ),
+            LinearLayoutManager.HORIZONTAL
+        )
+
+
+        //设置RvCards
+        rvCardAdapter= RvCardsAdapter(R.layout.item_card,mutableListOf())
+        setupRecyclerView(
+            binding.rvCards, //传入recyclerView对象
+            rvCardAdapter,
+            listOf( //传入数据列表
+                ItemCard("无门槛", "翻","0","0"),
+                ItemCard("无门槛", "爱奇艺","会员优惠券","去使用"),
+                ItemCard("无门槛", "很遗憾","未抽中奖品","去使用"),
             ),
             LinearLayoutManager.HORIZONTAL
         )
