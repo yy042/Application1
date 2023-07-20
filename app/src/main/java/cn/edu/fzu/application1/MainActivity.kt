@@ -8,7 +8,6 @@ import cn.edu.fzu.application1.adapter.RvTasksAdapter
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import cn.edu.fzu.application1.entity.ItemService
 import cn.edu.fzu.application1.entity.ItemTask
-import cn.edu.fzu.application1.util.Util
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
 
 class MainActivity : AppCompatActivity() {
