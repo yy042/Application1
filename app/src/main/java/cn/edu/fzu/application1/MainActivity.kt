@@ -3,16 +3,11 @@ package cn.edu.fzu.application1
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import cn.edu.fzu.application1.adapter.RvCardsAdapter
-import cn.edu.fzu.application1.adapter.RvRecommendsAdapter
-import cn.edu.fzu.application1.adapter.RvServicesAdapter
-import cn.edu.fzu.application1.adapter.RvTasksAdapter
+import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
-import cn.edu.fzu.application1.entity.ItemCard
-import cn.edu.fzu.application1.entity.ItemRecommend
-import cn.edu.fzu.application1.entity.ItemService
-import cn.edu.fzu.application1.entity.ItemTask
+import cn.edu.fzu.application1.entity.*
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
+import cn.edu.fzu.application1.util.Util.setupWaterfall
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -21,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvTaskAdapter: RvTasksAdapter
     private lateinit var rvRecommendAdapter: RvRecommendsAdapter
     private lateinit var rvCardAdapter: RvCardsAdapter
+    private lateinit var rvWaterfallAdapter: RvWaterfallAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             rvRecommendAdapter,
             listOf( //传入数据列表
                 ItemRecommend("腾讯视频会员周卡", R.drawable.ic_tencentvideo, "1000金豆"),
-                ItemRecommend("优酷视频会员周卡", R.drawable.ic_youku, "1500金豆"),
+                ItemRecommend("优酷视频会员周卡", R.drawable.ic_youku, "1500金豆")
             ),
             LinearLayoutManager.HORIZONTAL
         )
@@ -74,9 +70,24 @@ class MainActivity : AppCompatActivity() {
             listOf( //传入数据列表
                 ItemCard("无门槛", "翻","0","0"),
                 ItemCard("无门槛", "爱奇艺","会员优惠券","去使用"),
-                ItemCard("无门槛", "很遗憾","未抽中奖品","去使用"),
+                ItemCard("无门槛", "很遗憾","未抽中奖品","去使用")
             ),
             LinearLayoutManager.HORIZONTAL
         )
+
+
+        //设置Waterfall
+        rvWaterfallAdapter= RvWaterfallAdapter(R.layout.item_waterfall,mutableListOf())
+        setupWaterfall(
+            binding.rvWaterfall, //传入recyclerView对象
+            rvWaterfallAdapter,
+            listOf( //传入数据列表
+                ItemWaterfall("0", "0","电信关爱版-为老年人架桥","no",R.drawable.pic_elderly),
+                ItemWaterfall("赠新人礼包", "赠美团神券","加装【副卡】，一份套餐全家用","10",R.drawable.pic_family),
+                ItemWaterfall("免运费", "送配件","iPhone12 128GB 红色 双卡双待","300",R.drawable.pic_iphone),
+                ItemWaterfall("赠新人礼包", "0","15GB定向流量+腾讯视频月会员卡","10",R.drawable.pic_tencentvip)
+            )
+        )
+
     }
 }
