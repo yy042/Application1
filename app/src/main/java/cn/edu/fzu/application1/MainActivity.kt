@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import cn.edu.fzu.application1.entity.*
+import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
 import cn.edu.fzu.application1.util.Util.setupWaterfall
+import cn.edu.fzu.application1.util.Util.transparentStatusBar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //调用工具类的方法
+        transparentStatusBar(window) //使状态栏背景透明
+        setStatusBarTextColor(window,false)//根据背景色设置状态栏文字颜色
 
         //设置RvServices
         rvServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())
