@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     tools:context=".MainActivity"
     android:background="#f4f4f4"
-    android:padding="13dp">
+    android:padding="13dp"
+    android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -242,14 +243,11 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="52dp"
+                android:layout_height="22dp"
                 android:layout_marginLeft="18dp"
                 android:background="@drawable/bg_btn_red"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="5dp"
+                android:gravity="center"
                 android:text="兑好物"
                 android:textColor="#ffffff"
                 android:textSize="11sp" />
