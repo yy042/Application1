@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         >
 
         <LinearLayout
@@ -184,16 +184,17 @@
                     android:gravity="center"
                     android:layout_weight="1"/>
 
-                <TextView
+                <cn.edu.fzu.application1.util.IconTextView
+                    android:id="@+id/btn_check"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
-                    android:text="查询余额"
-                    android:textColor="#fefefe"
-                    android:textSize="16sp"
-                    android:background="@drawable/bg_btn_blue"
+                    app:icLoadingSize="16dp"
+                    app:icLoadingSrc="@drawable/ic_loading"
+                    app:text="查询余额"
+                    android:layout_weight="1"
                     android:layout_marginLeft="14dp"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
+                    />
+
 
             </LinearLayout>
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_btn_blue"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_weight="1">
+
+    <ImageView
+        android:id="@+id/ic_loading"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_loading"
+        android:layout_marginRight="6dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_check"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:text="查询余额"
+        android:textColor="#fefefe"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_change"
+        app:tint="@color/white"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

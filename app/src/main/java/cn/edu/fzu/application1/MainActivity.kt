@@ -1,6 +1,9 @@
 package cn.edu.fzu.application1
 
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
@@ -12,7 +15,6 @@ import cn.edu.fzu.application1.util.Util.setupWaterfall
 import cn.edu.fzu.application1.util.Util.transparentStatusBar
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
 
     private lateinit var rvServiceAdapter: RvServicesAdapter
     private lateinit var rvTaskAdapter: RvTasksAdapter
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //调用工具类的方法
+        //设置沉浸式状态栏
         transparentStatusBar(window) //使状态栏背景透明
         setStatusBarTextColor(window,false)//根据背景色设置状态栏文字颜色
 
@@ -93,6 +95,14 @@ class MainActivity : AppCompatActivity() {
                 ItemWaterfall("赠新人礼包", "0","15GB定向流量+腾讯视频月会员卡","10",R.drawable.pic_tencentvip)
             )
         )
+
+        //创建旋转动画
+        val rotateAnimation = RotateAnimation(0f, 360f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f)
+        rotateAnimation.duration = 1000
+        rotateAnimation.repeatCount = Animation.INFINITE
+        rotateAnimation.interpolator = LinearInterpolator()
 
     }
 }
