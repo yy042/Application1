@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -13,9 +14,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.IconTextviewBinding
+import kotlinx.coroutines.*
 
 //自定义View类
-class IconTextView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class IconTextView(context: Context, attrs: AttributeSet) :
+    LinearLayout(context, attrs) , CoroutineScope by MainScope(){
 
     //初始化绑定类
     private val binding = IconTextviewBinding.inflate(LayoutInflater.from(context), this, true)
@@ -37,6 +40,7 @@ class IconTextView(context: Context, attrs: AttributeSet) : LinearLayout(context
             binding.icLoading.setImageResource(icLoadingSrc) // 如果图片资源不为0，设置图片资源
             binding.icLoading.layoutParams.width = icLoadingSize // 设置图片宽度
             binding.icLoading.layoutParams.height = icLoadingSize // 设置图片高度
+            binding.icLoading.visibility = View.GONE //隐藏loading图片
 
         }
         if (text != null) {
@@ -54,11 +58,23 @@ class IconTextView(context: Context, attrs: AttributeSet) : LinearLayout(context
         //设置点击事件
         setOnClickListener {
             //启动或停止旋转动画
+            //启动或停止旋转动画
             if (binding.icLoading.animation == null) {
+                binding.icLoading.visibility = View.VISIBLE //显示loading图片
                 binding.icLoading.startAnimation(rotateAnimation)
-
+                //启动一个协程来模拟网络请求
+                launch(Dispatchers.Main) {
+                    delay(3000L) //延迟3秒
+                    binding.icLoading.clearAnimation() //停止旋转动画
+                    binding.icLoading.visibility = View.GONE //隐藏loading图片
+                    binding.tvCheck.text = "余额：58.00元" //更新文字内容
+                    binding.icReload.visibility = View.VISIBLE //显示重新加载图片
+                }
             } else {
                 binding.icLoading.clearAnimation()
+                binding.tvCheck.text = "查询余额" //更新文字内容
+                binding.icLoading.visibility = View.VISIBLE //显示loading图片
+                binding.icReload.visibility = View.GONE //隐藏重新加载图片
             }
         }
     }
