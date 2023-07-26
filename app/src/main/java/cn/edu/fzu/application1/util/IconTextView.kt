@@ -61,6 +61,8 @@ class IconTextView(context: Context, attrs: AttributeSet) :
             //启动或停止旋转动画
             if (binding.icLoading.animation == null) {
                 binding.icLoading.visibility = View.VISIBLE //显示loading图片
+                binding.tvCheck.text = "查询余额" //更新文字内容
+                binding.icReload.visibility = View.GONE //隐藏重新加载图片
                 binding.icLoading.startAnimation(rotateAnimation)
                 //启动一个协程来模拟网络请求
                 launch(Dispatchers.Main) {
