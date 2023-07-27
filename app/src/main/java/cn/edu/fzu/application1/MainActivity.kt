@@ -1,9 +1,12 @@
 package cn.edu.fzu.application1
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
@@ -13,6 +16,7 @@ import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
 import cn.edu.fzu.application1.util.Util.setupWaterfall
 import cn.edu.fzu.application1.util.Util.transparentStatusBar
+import com.gyf.immersionbar.ImmersionBar
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,9 +30,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //设置沉浸式状态栏
-        transparentStatusBar(window) //使状态栏背景透明
-        setStatusBarTextColor(window,false)//根据背景色设置状态栏文字颜色
+        //设置标题栏
+        ImmersionBar.with(this)
+            .statusBarColor(R.color.bg_main)//设置状态栏颜色
+            .statusBarDarkFont(true) //设置状态栏字体为深色
+            .titleBar(binding.tbMain) //指定标题栏为toolbar
+            .init()
+
+        //设置沉浸式状态栏的另一种方法
+        //transparentStatusBar(window) //使状态栏背景透明
+        //setStatusBarTextColor(window,false)//根据背景色设置状态栏文字颜色
 
         //设置RvServices
         rvServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())
@@ -96,13 +107,25 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        //创建旋转动画
-        val rotateAnimation = RotateAnimation(0f, 360f,
-            Animation.RELATIVE_TO_SELF, 0.5f,
-            Animation.RELATIVE_TO_SELF, 0.5f)
-        rotateAnimation.duration = 1000
-        rotateAnimation.repeatCount = Animation.INFINITE
-        rotateAnimation.interpolator = LinearInterpolator()
+        //测试文字自适应
+        binding.etTest.addTextChangedListener(object : TextWatcher {
+            //在文字改变之前被调用，可以做一些准备工作
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //do nothing
+            }
 
+            //在文字改变之中被调用，可以获取输入的文字并显示在TextView上
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //把输入的文字转换为字符串
+                val input = s.toString()
+                //把字符串设置给TextView
+                binding.ictvTest.setText(input)
+            }
+
+            //在文字改变之后被调用，可以做一些后续工作
+            override fun afterTextChanged(s: Editable?) {
+                //do nothing
+            }
+        })
     }
 }

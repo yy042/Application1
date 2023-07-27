@@ -24,7 +24,11 @@
         android:text="查询余额"
         android:textColor="#fefefe"
         android:textSize="16sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeStepGranularity="1sp"/>
 
     <ImageView
         android:id="@+id/ic_reload"

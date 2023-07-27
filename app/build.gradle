@@ -82,5 +82,5 @@ dependencies {
     implementation "io.github.cymchad:BaseRecyclerViewAdapterHelper:3.0.14"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
-
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
 }

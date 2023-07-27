@@ -2,6 +2,9 @@ package cn.edu.fzu.application1.util
 
 import android.content.Context
 import android.graphics.Color
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -69,7 +72,7 @@ class IconTextView(context: Context, attrs: AttributeSet) :
             //启动或停止旋转动画
             if (binding.icLoading.animation == null) {
                 binding.icLoading.visibility = View.VISIBLE //显示loading图片
-                setText("查询余额" ) //更新文字内容
+                setText("查询中...") //更新文字内容
                 binding.icReload.visibility = View.GONE //隐藏重新加载图片
                 binding.icLoading.startAnimation(rotateAnimation)
                 //启动一个协程来模拟网络请求
@@ -89,9 +92,25 @@ class IconTextView(context: Context, attrs: AttributeSet) :
         }
     }
 
-    private fun setText(text:String){
-        binding.tvCheck.text =text
+    fun setText(text: String) {
+        binding.tvCheck.text = text
     }
+
+    /*private fun setBalance(text: String) {
+        //创建一个SpannableString对象
+        val spannableString = SpannableString (text)
+        //创建一个AutoSizeTextSpan对象，设置金额部分的最小字号为12sp，最大字号为60sp，步长为2sp
+        val autoSizeTextSpan = AutoSizeTextSpan (12, 60, 2)
+//获取金额部分的起始和结束位置
+        val start = spannableString.indexOf("：") + 1
+        val end = spannableString.indexOf("元")
+//给金额部分添加AutoSizeTextSpan
+        spannableString.setSpan (autoSizeTextSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        //给TextView设置SpannableString对象
+
+        binding.tvCheck.text = spannableString
+    }*/
+
     //将dp转换为px的辅助方法
     private fun dpToPx(dp: Int): Int {
         return (dp * resources.displayMetrics.density).toInt()
