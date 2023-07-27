@@ -73,7 +73,7 @@ class IconTextView(context: Context, attrs: AttributeSet) :
             if (binding.icLoading.animation == null) {
                 binding.icLoading.visibility = View.VISIBLE //显示loading图片
                 setText("查询中...") //更新文字内容
-                binding.icReload.visibility = View.GONE //隐藏重新加载图片
+                binding.icReload.visibility = View.INVISIBLE //隐藏重新加载图片
                 binding.icLoading.startAnimation(rotateAnimation)
                 //启动一个协程来模拟网络请求
                 launch(Dispatchers.Main) {
@@ -87,7 +87,7 @@ class IconTextView(context: Context, attrs: AttributeSet) :
                 binding.icLoading.clearAnimation()
                 setText("查询余额")  //更新文字内容
                 binding.icLoading.visibility = View.VISIBLE //显示loading图片
-                binding.icReload.visibility = View.GONE //隐藏重新加载图片
+                binding.icReload.visibility = View.INVISIBLE //隐藏重新加载图片
             }
         }
     }
