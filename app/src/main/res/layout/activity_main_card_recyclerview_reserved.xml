@@ -500,48 +500,14 @@
 
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_cards"
                     android:layout_width="match_parent"
-                    android:layout_height="106dp"
-                    android:layout_marginTop="9dp">
-
-                    <ImageView
-                        android:id="@+id/main_card1"
-                        android:layout_width="97dp"
-                        android:layout_height="0dp"
-                        android:src="@drawable/ic_flip_card"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/main_card2"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/main_card2"
-                        android:layout_width="97dp"
-                        android:layout_height="0dp"
-                        android:src="@drawable/ic_flip_card"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintHorizontal_chainStyle="spread"
-                        app:layout_constraintLeft_toRightOf="@id/main_card1"
-                        app:layout_constraintRight_toLeftOf="@id/main_card3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/main_card3"
-                        android:layout_width="97dp"
-                        android:layout_height="0dp"
-                        android:src="@drawable/ic_flip_card"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintLeft_toRightOf="@id/main_card2"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_card"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"/>
 
             </LinearLayout>
 

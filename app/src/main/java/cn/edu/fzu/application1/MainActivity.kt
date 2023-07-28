@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //设置RvCards
-        rvCardAdapter= RvCardsAdapter(R.layout.item_card,mutableListOf())
+     /*   rvCardAdapter= RvCardsAdapter(R.layout.item_card,mutableListOf())
         setupRecyclerView(
             binding.rvCards, //传入recyclerView对象
             rvCardAdapter,
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             ),
             LinearLayoutManager.HORIZONTAL
         )
-
+*/
 
         //设置Waterfall
         rvWaterfallAdapter= RvWaterfallAdapter(R.layout.item_waterfall,mutableListOf())
