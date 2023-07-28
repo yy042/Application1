@@ -14,15 +14,13 @@
         android:layout_height="16dp"
         android:src="@drawable/ic_loading"
         android:layout_marginStart="40dp"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/tv_check"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tv_check"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:text="查询余额"
         android:textColor="#fefefe"
@@ -48,7 +46,6 @@
         android:layout_marginStart="6dp"
         android:layout_marginEnd="11dp"
         android:visibility="gone"
-        app:layout_constraintLeft_toRightOf="@id/tv_check"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
