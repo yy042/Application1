@@ -26,6 +26,7 @@ class CardActivity : AppCompatActivity() {
         val card = binding.card
         val ray = binding.cardRay
 
+
         // 创建一个动画集合，用于存放所有的动画
         val animationSet = AnimatorSet()
 
@@ -35,8 +36,6 @@ class CardActivity : AppCompatActivity() {
         PropertyValuesHolder.ofFloat("scaleY", 1f, 1.5f)).apply {
             duration = 200  // 设置动画时间为0.2秒
         }
-
-
 
         // 创建第二步的动画
         // 卡片旋转由0度转向+15度（旋转时间0.2s）
@@ -133,8 +132,8 @@ class CardActivity : AppCompatActivity() {
         animationSet.play(rotateCard3).with(scaleRay3).after(rotateCard2)  // 第四步在第三步之后播放
         animationSet.play(rotateCard4).with(scaleRay4).after(rotateCard3)  // 第五步在第四步之后播放
         animationSet.play(scaleRay5).after(rotateCard4)  // 第六步在第五步之后播放
-        animationSet.play(rotateCard5).with(scaleCard2).after(scaleRay5)  // 第七步在第六步之后播放
-        animationSet.play(fadeRay1).after(scaleRay5)  // 光束消失在第六步之后播放
+        animationSet.play(rotateCard5).with(scaleCard2).with(fadeRay1).after(scaleRay5)  // 第七步在第六步之后播放
+        //animationSet.play(fadeRay1).after(scaleRay5)  // 光束消失在第六步之后播放
 
         // 启动动画集合
         animationSet.start()

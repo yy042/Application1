@@ -2,16 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="360dp"
     android:layout_height="match_parent"
     tools:context=".CardActivity"
     android:background="@color/half_transparent">
 
     <ImageView
         android:id="@+id/card_ray"
-        android:layout_width="wrap_content"
+        android:layout_width="2000dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
+        android:scaleX="0"
         android:src="@drawable/ic_flip_card_ray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
@@ -25,8 +26,8 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_flip_card"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
