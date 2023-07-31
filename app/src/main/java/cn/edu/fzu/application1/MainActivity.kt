@@ -1,8 +1,10 @@
 package cn.edu.fzu.application1
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
@@ -126,6 +128,13 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 //do nothing
             }
+        })
+
+        //设置点击卡片跳转到新Activity
+        binding.mainCard1.setOnClickListener(View.OnClickListener {
+            // 创建一个Intent对象，用于指定要启动的Activity
+            val intent = Intent(this, CardActivity::class.java)
+            startActivity(intent)
         })
     }
 }

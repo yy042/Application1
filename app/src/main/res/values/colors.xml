@@ -10,4 +10,6 @@
 
 
     <color name="bg_main">#f4f4f4</color>
+    <color name="transparent">#00000000</color>
+    <color name="half_transparent">#80000000</color>
 </resources>
