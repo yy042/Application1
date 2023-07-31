@@ -69,7 +69,6 @@ class IconTextView(context: Context, attrs: AttributeSet) :
         //设置点击事件
         setOnClickListener {
             //启动或停止旋转动画
-            //启动或停止旋转动画
             if (binding.icLoading.animation == null) {
                 binding.icLoading.visibility = View.VISIBLE //显示loading图片
                 setText("查询中...") //更新文字内容

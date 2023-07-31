@@ -1,12 +1,13 @@
 package cn.edu.fzu.application1
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.animation.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.animation.LinearInterpolator
 import cn.edu.fzu.application1.databinding.ActivityCardBinding
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
+import com.bumptech.glide.Glide
 import com.gyf.immersionbar.ImmersionBar
 
 class CardActivity : AppCompatActivity() {
@@ -25,7 +26,8 @@ class CardActivity : AppCompatActivity() {
         // 获取卡片视图和光束视图的引用
         val card = binding.card
         val ray = binding.cardRay
-
+        val popup=binding.popup
+        val cheer=binding.ivCheer
 
         // 创建一个动画集合，用于存放所有的动画
         val animationSet = AnimatorSet()
@@ -107,9 +109,11 @@ class CardActivity : AppCompatActivity() {
 
         // 创建第七步的动画
         // 卡片绕y轴旋转由0度旋转至270度（旋转时间0.4s）
+        // 卡片绕y轴旋转由0度旋转至360度（旋转时间0.4s）
         val rotateCard5 = ObjectAnimator.ofFloat(card, "rotationY", 0f, -270f).apply {
-            duration = 400  // 设置动画时间为0.4秒
+            duration = 400 // 设置动画时间为0.4秒
         }
+
 
         // 卡片缩放由150%放大至300%（缩放时间0.4s）
         val scaleCard2 = ObjectAnimator.ofPropertyValuesHolder(card,
@@ -125,6 +129,59 @@ class CardActivity : AppCompatActivity() {
             duration = 200  // 设置动画时间为0.2秒
         }
 
+        // 弹窗绕y轴翻转由270度转至360度（旋转时间0.2s）
+        val rotatePopup1 = ObjectAnimator.ofFloat(popup, "rotationY", -270f, -360f).apply {
+            duration = 200 // 设置动画时间为0.2秒
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                    // 动画开始时
+                    popup.visibility = View.VISIBLE
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    // 动画结束时
+                    Glide.with(this@CardActivity).load(R.drawable.gif_cheer).into(cheer)
+                    cheer.visibility=View.VISIBLE
+
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    // 动画取消时，不做任何操作
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                    // 动画重复时，不做任何操作
+                }
+            })
+        }
+
+// 光束出现透明度由0%变至100%（变化时间0.2s）
+        val fadeRay2 = ObjectAnimator.ofFloat(ray, "alpha", 0f, 1f).apply {
+            duration = 200 // 设置动画时间为0.2秒
+        }
+
+// 光束从60%缩放至100%（缩放时间0.2s）
+        val scaleRay6 = ObjectAnimator.ofPropertyValuesHolder(ray,
+            PropertyValuesHolder.ofFloat("scaleX", 0.6f, 1f),
+            PropertyValuesHolder.ofFloat("scaleY", 0.6f, 1f)
+        ).apply {
+            duration = 200 // 设置动画时间为0.2秒
+        }
+
+// 创建第九步的动画
+// 光束以4s一圈的速度进行旋转
+        val rotateRay1 = ObjectAnimator.ofFloat(ray, "rotation", 0f, 360f).apply {
+            duration = 4000 // 设置动画时间为4秒
+            repeatCount = ValueAnimator.INFINITE // 设置重复次数为无限
+            interpolator = LinearInterpolator()
+        }
+
+// 底部动效出现
+      /*  val bottomEffect1 = ObjectAnimator.ofFloat(bottomEffectView, "alpha", 0f, 1f).apply {
+            duration = 1000 // 设置动画时间为1秒
+        }*/
+
+
         // 将所有的动画添加到动画集合中，并设置播放顺序
         animationSet.play(scaleCard1) // 播放第一步
         animationSet.play(rotateCard1).with(scaleRay1).after(scaleCard1)  // 第二步同时播放
@@ -133,8 +190,9 @@ class CardActivity : AppCompatActivity() {
         animationSet.play(rotateCard4).with(scaleRay4).after(rotateCard3)  // 第五步在第四步之后播放
         animationSet.play(scaleRay5).after(rotateCard4)  // 第六步在第五步之后播放
         animationSet.play(rotateCard5).with(scaleCard2).with(fadeRay1).after(scaleRay5)  // 第七步在第六步之后播放
-        //animationSet.play(fadeRay1).after(scaleRay5)  // 光束消失在第六步之后播放
-
+        animationSet.play(rotatePopup1).with(fadeRay2).with(scaleRay6).after(rotateCard5) // 第七步中的弹窗翻转、光束出现和光束缩放在卡片旋转之后同时播放
+        animationSet.play(rotateRay1).after(rotatePopup1) // 第九步中的光束旋转在弹窗翻转之后播放
+        //animationSet.play(bottomEffect1).after(rotatePopup1) // 第九步中的底部动效在弹窗翻转之后播放
         // 启动动画集合
         animationSet.start()
 
