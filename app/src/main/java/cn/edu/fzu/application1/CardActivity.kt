@@ -155,12 +155,12 @@ class CardActivity : AppCompatActivity() {
             })
         }
 
-// 光束出现透明度由0%变至100%（变化时间0.2s）
+        // 光束出现透明度由0%变至100%（变化时间0.2s）
         val fadeRay2 = ObjectAnimator.ofFloat(ray, "alpha", 0f, 1f).apply {
             duration = 200 // 设置动画时间为0.2秒
         }
 
-// 光束从60%缩放至100%（缩放时间0.2s）
+        // 光束从60%缩放至100%（缩放时间0.2s）
         val scaleRay6 = ObjectAnimator.ofPropertyValuesHolder(ray,
             PropertyValuesHolder.ofFloat("scaleX", 0.6f, 1f),
             PropertyValuesHolder.ofFloat("scaleY", 0.6f, 1f)
@@ -168,19 +168,13 @@ class CardActivity : AppCompatActivity() {
             duration = 200 // 设置动画时间为0.2秒
         }
 
-// 创建第九步的动画
-// 光束以4s一圈的速度进行旋转
+        // 创建第九步的动画
+        // 光束以4s一圈的速度进行旋转
         val rotateRay1 = ObjectAnimator.ofFloat(ray, "rotation", 0f, 360f).apply {
             duration = 4000 // 设置动画时间为4秒
             repeatCount = ValueAnimator.INFINITE // 设置重复次数为无限
             interpolator = LinearInterpolator()
         }
-
-// 底部动效出现
-      /*  val bottomEffect1 = ObjectAnimator.ofFloat(bottomEffectView, "alpha", 0f, 1f).apply {
-            duration = 1000 // 设置动画时间为1秒
-        }*/
-
 
         // 将所有的动画添加到动画集合中，并设置播放顺序
         animationSet.play(scaleCard1) // 播放第一步
@@ -192,8 +186,7 @@ class CardActivity : AppCompatActivity() {
         animationSet.play(rotateCard5).with(scaleCard2).with(fadeRay1).after(scaleRay5)  // 第七步在第六步之后播放
         animationSet.play(rotatePopup1).with(fadeRay2).with(scaleRay6).after(rotateCard5) // 第七步中的弹窗翻转、光束出现和光束缩放在卡片旋转之后同时播放
         animationSet.play(rotateRay1).after(rotatePopup1) // 第九步中的光束旋转在弹窗翻转之后播放
-        //animationSet.play(bottomEffect1).after(rotatePopup1) // 第九步中的底部动效在弹窗翻转之后播放
-        // 启动动画集合
+         // 启动动画集合
         animationSet.start()
 
     }
