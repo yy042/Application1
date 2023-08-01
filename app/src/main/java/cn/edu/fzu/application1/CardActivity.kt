@@ -42,13 +42,6 @@ class CardActivity : AppCompatActivity() {
         // 创建一个动画集合，用于存放所有的动画
         val animationSet = AnimatorSet()
 
-        // 卡片缩放由100%放大到150%（缩放时间：0.2s）
-        val scaleCard1 = ObjectAnimator.ofPropertyValuesHolder(card,
-        PropertyValuesHolder.ofFloat("scaleX", 1f, 1.5f),
-        PropertyValuesHolder.ofFloat("scaleY", 1f, 1.5f)).apply {
-            duration = 200  // 设置动画时间为0.2秒
-        }
-
         // 创建第二步的动画
         // 卡片旋转由0度转向+15度（旋转时间0.2s）
         val rotateCard1 = ObjectAnimator.ofFloat(card, "rotation", 0f, 15f).apply {
@@ -92,8 +85,6 @@ class CardActivity : AppCompatActivity() {
             duration = 200  // 设置动画时间为0.2秒
         }
 
-
-
         // 创建第五步的动画
         // 卡片旋转由-15度转向0度（旋转时间0.2s）
         val rotateCard4 = ObjectAnimator.ofFloat(card, "rotation", -15f, 0f).apply {
@@ -124,7 +115,6 @@ class CardActivity : AppCompatActivity() {
             duration = 400 // 设置动画时间为0.4秒
         }
 
-
         // 卡片缩放由150%放大至300%（缩放时间0.4s）
         val scaleCard2 = ObjectAnimator.ofPropertyValuesHolder(card,
             PropertyValuesHolder.ofFloat("scaleX", 1.5f, 3f),
@@ -146,6 +136,7 @@ class CardActivity : AppCompatActivity() {
                 override fun onAnimationStart(animation: Animator?) {
                     // 动画开始时
                     popup.visibility = View.VISIBLE
+                    popup.transitionName="card"
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
@@ -218,8 +209,7 @@ class CardActivity : AppCompatActivity() {
 
 
         // 将所有的动画添加到动画集合中，并设置播放顺序
-        animationSet.play(scaleCard1)// 播放第一步
-        animationSet.play(rotateCard1).with(scaleRay1).after(scaleCard1)  // 第二步同时播放
+        animationSet.play(rotateCard1).with(scaleRay1)  // 第二步同时播放
         animationSet.play(rotateCard2).with(scaleRay2).after(rotateCard1)  // 第三步在第二步之后播放
         animationSet.play(rotateCard3).with(scaleRay3).after(rotateCard2)  // 第四步在第三步之后播放
         animationSet.play(rotateCard4).with(scaleRay4).after(rotateCard3)  // 第五步在第四步之后播放
