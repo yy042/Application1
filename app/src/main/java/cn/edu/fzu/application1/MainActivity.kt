@@ -4,12 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.transition.ChangeBounds
+import android.transition.ChangeTransform
+import android.transition.TransitionSet
 import android.view.View
+import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
@@ -32,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //设置标题栏
+         //设置标题栏
         ImmersionBar.with(this)
             .statusBarColor(R.color.bg_main)//设置状态栏颜色
             .statusBarDarkFont(true) //设置状态栏字体为深色
@@ -134,7 +140,13 @@ class MainActivity : AppCompatActivity() {
         binding.mainCard1.setOnClickListener(View.OnClickListener {
             // 创建一个Intent对象，用于指定要启动的Activity
             val intent = Intent(this, CardActivity::class.java)
-            startActivity(intent)
+            //为想要共享的卡片设置一个唯一的 transitionName 属性
+            val transitionName = ViewCompat.getTransitionName(binding.mainCard1)
+
+            // 创建一个 ActivityOptionsCompat 对象
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, binding.mainCard1,
+                transitionName ?: "default") //使用 ?: 操作符提供一个默认值，如果 transitionName 为 null，则使用默认值代替
+            startActivity(intent, options.toBundle())
         })
     }
 }

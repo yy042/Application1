@@ -3,17 +3,27 @@ package cn.edu.fzu.application1
 import android.animation.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.*
+import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.Window
 import android.view.animation.LinearInterpolator
+import android.view.animation.TranslateAnimation
 import cn.edu.fzu.application1.databinding.ActivityCardBinding
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.gyf.immersionbar.ImmersionBar
+import javax.sql.DataSource
 
 class CardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_card)
+        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
 
         val binding = ActivityCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -140,7 +150,37 @@ class CardActivity : AppCompatActivity() {
 
                 override fun onAnimationEnd(animation: Animator?) {
                     // 动画结束时
-                    Glide.with(this@CardActivity).load(R.drawable.gif_cheer).into(cheer)
+                    // 配置
+                    val options = RequestOptions().skipMemoryCache(true)
+                    // 加载gif图片
+                    Glide.with(this@CardActivity).asGif()
+                        .apply(options) // 应用配置
+                        .load(R.drawable.gif_cheer)
+                        .listener(object : RequestListener<GifDrawable> { // 添加监听，设置播放次数
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                return false
+                            }
+
+                            override fun onResourceReady(
+                                resource: GifDrawable?,
+                                model: Any?,
+                                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                                dataSource: com.bumptech.glide.load.DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                if (resource is GifDrawable) {
+                                    resource.setLoopCount(1) // 只播放一次
+                                }
+                                return false
+                            }
+                        })
+                        .into(cheer)
+
                     cheer.visibility=View.VISIBLE
 
                 }
@@ -176,8 +216,9 @@ class CardActivity : AppCompatActivity() {
             interpolator = LinearInterpolator()
         }
 
+
         // 将所有的动画添加到动画集合中，并设置播放顺序
-        animationSet.play(scaleCard1) // 播放第一步
+        animationSet.play(scaleCard1)// 播放第一步
         animationSet.play(rotateCard1).with(scaleRay1).after(scaleCard1)  // 第二步同时播放
         animationSet.play(rotateCard2).with(scaleRay2).after(rotateCard1)  // 第三步在第二步之后播放
         animationSet.play(rotateCard3).with(scaleRay3).after(rotateCard2)  // 第四步在第三步之后播放

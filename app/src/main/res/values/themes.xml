@@ -22,8 +22,6 @@
         <item name="android:windowIsTranslucent">true</item>
         <!--window No Title窗口无标题-->
         <item name="android:windowNoTitle">true</item>
-        <!--弹出动画-->
-        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
 
