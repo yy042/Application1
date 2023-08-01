@@ -109,20 +109,18 @@ class CardActivity : AppCompatActivity() {
         }
 
         // 创建第七步的动画
-        // 卡片绕y轴旋转由0度旋转至270度（旋转时间0.4s）
         // 卡片绕y轴旋转由0度旋转至360度（旋转时间0.4s）
-        val rotateCard5 = ObjectAnimator.ofFloat(card, "rotationY", 0f, -270f).apply {
-            duration = 400 // 设置动画时间为0.4秒
-        }
-
         // 卡片缩放由150%放大至300%（缩放时间0.4s）
-        val scaleCard2 = ObjectAnimator.ofPropertyValuesHolder(card,
-            PropertyValuesHolder.ofFloat("scaleX", 1.5f, 3f),
-            PropertyValuesHolder.ofFloat("scaleY", 1.5f, 3f)
+        val rotateCard5 = ObjectAnimator.ofPropertyValuesHolder(card,
+            PropertyValuesHolder.ofFloat("rotationY", 0f, -270f),
+            PropertyValuesHolder.ofFloat("scaleX", 1f, 2f),
+            PropertyValuesHolder.ofFloat("scaleY", 1f, 2f)
         ).apply {
-            duration = 400  // 设置动画时间为0.4秒
+            duration = 400  // 设置动画时间为0.2秒
+            val distance=10000
+            val scale=getResources().getDisplayMetrics().density * distance
+            card.cameraDistance=scale
         }
-
 
         // 光束消失透明度由100%变至0%（变化时间0.2s）
         val fadeRay1 = ObjectAnimator.ofFloat(ray, "alpha", 1f, 0f).apply {
@@ -132,6 +130,15 @@ class CardActivity : AppCompatActivity() {
         // 弹窗绕y轴翻转由270度转至360度（旋转时间0.2s）
         val rotatePopup1 = ObjectAnimator.ofFloat(popup, "rotationY", -270f, -360f).apply {
             duration = 200 // 设置动画时间为0.2秒
+            val distance=10000
+            val scale=getResources().getDisplayMetrics().density * distance
+            // 添加一个UpdateListener
+            addUpdateListener {
+                // 在每次动画更新时都重新设置distance
+                popup.setHasTransientState(true)
+                popup.cameraDistance=scale
+                popup.invalidate()
+            }
             addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
                     // 动画开始时
@@ -214,7 +221,7 @@ class CardActivity : AppCompatActivity() {
         animationSet.play(rotateCard3).with(scaleRay3).after(rotateCard2)  // 第四步在第三步之后播放
         animationSet.play(rotateCard4).with(scaleRay4).after(rotateCard3)  // 第五步在第四步之后播放
         animationSet.play(scaleRay5).after(rotateCard4)  // 第六步在第五步之后播放
-        animationSet.play(rotateCard5).with(scaleCard2).with(fadeRay1).after(scaleRay5)  // 第七步在第六步之后播放
+        animationSet.play(rotateCard5).with(fadeRay1).after(scaleRay5)  // 第七步在第六步之后播放
         animationSet.play(rotatePopup1).with(fadeRay2).with(scaleRay6).after(rotateCard5) // 第七步中的弹窗翻转、光束出现和光束缩放在卡片旋转之后同时播放
         animationSet.play(rotateRay1).after(rotatePopup1) // 第九步中的光束旋转在弹窗翻转之后播放
          // 启动动画集合
