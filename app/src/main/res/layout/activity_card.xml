@@ -34,7 +34,44 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/popup"
+        android:id="@+id/card_lose"
+        android:layout_width="291dp"
+        android:layout_height="291dp"
+        android:background="@drawable/ic_cardbg"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="很遗憾"
+            android:textColor="#bb6f42"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:layout_marginTop="7dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_card_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未抽中奖品"
+            android:textColor="#bb6f42"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/card_win"
         android:layout_width="291dp"
         android:layout_height="291dp"
         android:orientation="vertical"
@@ -127,7 +164,7 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popup" />
+        app:layout_constraintTop_toBottomOf="@+id/card_win" />
 
     <ImageView
         android:id="@+id/iv_cheer"

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.Window
 import android.view.animation.LinearInterpolator
 import android.view.animation.TranslateAnimation
+import android.widget.LinearLayout
 import androidx.core.transition.addListener
 import cn.edu.fzu.application1.databinding.ActivityCardBinding
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.gyf.immersionbar.ImmersionBar
 import javax.sql.DataSource
+import kotlin.random.Random
 
 class CardActivity : AppCompatActivity() {
     private lateinit var animationSet:AnimatorSet
@@ -39,7 +41,12 @@ class CardActivity : AppCompatActivity() {
         // 获取卡片视图和光束视图的引用
         val card = binding.card
         val ray = binding.cardRay
-        val popup=binding.popup
+        lateinit var popup:LinearLayout
+        if (isWin()){
+            popup=binding.cardWin
+        }else{
+            popup=binding.cardLose
+        }
         val cheer=binding.ivCheer
         val btn_close=binding.btnClose
 
@@ -237,4 +244,19 @@ class CardActivity : AppCompatActivity() {
         window.sharedElementEnterTransition.addListener(onEnd = { animationSet.start() })
 
     }
+
+    //根据随机数的值来判断是否中奖
+    fun isWin(): Boolean {
+        // 生成一个0到99之间的随机整数
+        val number = Random.nextInt()%2
+        // 如果随机数小于50，则认为中奖，返回true
+        if (number == 0) {
+            return true
+        }
+        // 否则，认为没中奖，返回false
+        else {
+            return false
+        }
+    }
+
 }
