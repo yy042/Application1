@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         //设置点击卡片跳转到新Activity
-        binding.mainCard1.setOnClickListener(View.OnClickListener {
+     /*   binding.mainCard1.setOnClickListener(View.OnClickListener {
             // 创建一个Intent对象，用于指定要启动的Activity
             val intent = Intent(this, CardActivity::class.java)
             //为想要共享的卡片设置一个唯一的 transitionName 属性
@@ -147,6 +147,6 @@ class MainActivity : AppCompatActivity() {
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, binding.mainCard1,
                 transitionName ?: "default") //使用 ?: 操作符提供一个默认值，如果 transitionName 为 null，则使用默认值代替
             startActivity(intent, options.toBundle())
-        })
+        })*/
     }
 }
