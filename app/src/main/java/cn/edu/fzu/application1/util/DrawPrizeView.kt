@@ -19,7 +19,7 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
     init {
         orientation=VERTICAL
 
-        setOnClickListener{
+        binding.mainCard1.setOnClickListener{
             // 创建一个Intent对象，指定要跳转到的Activity类
             val intent = Intent(context, CardActivity::class.java)
 

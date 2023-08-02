@@ -1,6 +1,7 @@
 package cn.edu.fzu.application1
 
 import android.animation.*
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.*
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.Window
 import android.view.animation.LinearInterpolator
 import android.view.animation.TranslateAnimation
+import androidx.core.transition.addListener
 import cn.edu.fzu.application1.databinding.ActivityCardBinding
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
@@ -21,6 +23,8 @@ import com.gyf.immersionbar.ImmersionBar
 import javax.sql.DataSource
 
 class CardActivity : AppCompatActivity() {
+    private lateinit var animationSet:AnimatorSet
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
@@ -32,15 +36,15 @@ class CardActivity : AppCompatActivity() {
         ImmersionBar.with(this)
             .init()
 
-
         // 获取卡片视图和光束视图的引用
         val card = binding.card
         val ray = binding.cardRay
         val popup=binding.popup
         val cheer=binding.ivCheer
+        val btn_close=binding.btnClose
 
         // 创建一个动画集合，用于存放所有的动画
-        val animationSet = AnimatorSet()
+        animationSet = AnimatorSet()
 
         // 创建第二步的动画
         // 卡片旋转由0度转向+15度（旋转时间0.2s）
@@ -151,7 +155,7 @@ class CardActivity : AppCompatActivity() {
                     // 配置
                     val options = RequestOptions().skipMemoryCache(true)
                     // 加载gif图片
-                    Glide.with(this@CardActivity).asGif()
+                    Glide.with(getApplicationContext()).asGif()
                         .apply(options) // 应用配置
                         .load(R.drawable.gif_cheer)
                         .listener(object : RequestListener<GifDrawable> { // 添加监听，设置播放次数
@@ -178,9 +182,14 @@ class CardActivity : AppCompatActivity() {
                             }
                         })
                         .into(cheer)
-
                     cheer.visibility=View.VISIBLE
 
+                    // 显示关闭按钮
+                    btn_close.visibility=View.VISIBLE
+                    btn_close.setOnClickListener{
+                        // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
+                        supportFinishAfterTransition()
+                    }
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -224,8 +233,8 @@ class CardActivity : AppCompatActivity() {
         animationSet.play(rotateCard5).with(fadeRay1).after(scaleRay5)  // 第七步在第六步之后播放
         animationSet.play(rotatePopup1).with(fadeRay2).with(scaleRay6).after(rotateCard5) // 第七步中的弹窗翻转、光束出现和光束缩放在卡片旋转之后同时播放
         animationSet.play(rotateRay1).after(rotatePopup1) // 第九步中的光束旋转在弹窗翻转之后播放
-         // 启动动画集合
-        animationSet.start()
+
+        window.sharedElementEnterTransition.addListener(onEnd = { animationSet.start() })
 
     }
 }
