@@ -61,7 +61,7 @@
         android:layout_marginTop="9dp">
 
         <ImageView
-            android:id="@+id/main_card_remain"
+            android:id="@+id/main_card_result"
             android:layout_width="97dp"
             android:layout_height="0dp"
             android:src="@drawable/ic_flip_card"

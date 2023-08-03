@@ -1,6 +1,8 @@
 package cn.edu.fzu.application1
 
 import android.animation.*
+import android.app.Activity
+import android.content.Intent
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,6 +28,7 @@ import kotlin.random.Random
 
 class CardActivity : AppCompatActivity() {
     private lateinit var animationSet:AnimatorSet
+    val isWinResult=isWin()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,24 @@ class CardActivity : AppCompatActivity() {
         val binding = ActivityCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 设置转场动画监听器
+    /*    window.sharedElementEnterTransition.addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition?) {
+                // 转场动画开始前，设置内部控件的缩放比例和位移距离
+                val scale = 0.5f // 假设缩小到1/2
+                val dx = (originalWidth - originalWidth * scale) / 2 // 假设水平方向居中
+                val dy = (originalHeight - originalHeight * scale) / 2 // 假设垂直方向居中
+                binding.tvCardTitle.scaleX = scale
+                binding.tvCardTitle.scaleY = scale
+                binding.tvCardTitle.translationX = -dx
+                binding.tvCardTitle.translationY = -dy
+
+                // 其他内部控件省略
+            }
+            // 其他方法省略
+        })
+        // 其他代码省略*/
+
         //设置沉浸式
         ImmersionBar.with(this)
             .init()
@@ -41,8 +62,8 @@ class CardActivity : AppCompatActivity() {
         // 获取卡片视图和光束视图的引用
         val card = binding.card
         val ray = binding.cardRay
-        lateinit var popup:LinearLayout
-        if (isWin()){
+        lateinit var popup:View
+        if (isWinResult){
             popup=binding.cardWin
         }else{
             popup=binding.cardLose
@@ -196,6 +217,13 @@ class CardActivity : AppCompatActivity() {
                     btn_close.setOnClickListener{
                         // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
                         supportFinishAfterTransition()
+                        // Create a new intent to store the return data
+                        val returnIntent = Intent()
+                        // Put the card result as a boolean extra
+                        returnIntent.putExtra("card_result", isWinResult)
+                        // Set the result code as OK and pass the return intent
+                        setResult(Activity.RESULT_OK, returnIntent)
+
                     }
                 }
 
@@ -243,6 +271,20 @@ class CardActivity : AppCompatActivity() {
 
         window.sharedElementEnterTransition.addListener(onEnd = { animationSet.start() })
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // Create an Intent object to hold the data
+        val data = Intent()
+        // Put the card result as an extra in the data intent
+        data.putExtra("card_result", isWinResult) // isWin() is a boolean value that indicates whether the card is win or lose
+        // Set a result code for this intent
+        val resultCode = Activity.RESULT_OK // You can use Activity.RESULT_CANCELED if the operation is canceled
+        // Set the result with the data intent and the result code
+        setResult(resultCode, data)
+        // Finish this activity and return to MainActivity
+        finish()
     }
 
     //根据随机数的值来判断是否中奖

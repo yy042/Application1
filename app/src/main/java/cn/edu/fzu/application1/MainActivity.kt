@@ -1,5 +1,6 @@
 package cn.edu.fzu.application1
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -28,6 +29,7 @@ import com.gyf.immersionbar.ImmersionBar
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding:ActivityMainBinding
     private lateinit var rvServiceAdapter: RvServicesAdapter
     private lateinit var rvTaskAdapter: RvTasksAdapter
     private lateinit var rvRecommendAdapter: RvRecommendsAdapter
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
          //设置标题栏
         ImmersionBar.with(this)
@@ -135,18 +137,20 @@ class MainActivity : AppCompatActivity() {
                 //do nothing
             }
         })
-
-        //设置点击卡片跳转到新Activity
-     /*   binding.mainCard1.setOnClickListener(View.OnClickListener {
-            // 创建一个Intent对象，用于指定要启动的Activity
-            val intent = Intent(this, CardActivity::class.java)
-            //为想要共享的卡片设置一个唯一的 transitionName 属性
-            val transitionName = ViewCompat.getTransitionName(binding.mainCard1)
-
-            // 创建一个 ActivityOptionsCompat 对象
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, binding.mainCard1,
-                transitionName ?: "default") //使用 ?: 操作符提供一个默认值，如果 transitionName 为 null，则使用默认值代替
-            startActivity(intent, options.toBundle())
-        })*/
     }
+
+    // Override the onActivityResult method
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // Check if the request code matches the one we set before
+        if (requestCode == 1) {
+            // Check if the result code is OK
+            if (resultCode == Activity.RESULT_OK) {
+                // Get the card result from the data intent
+                val cardResult = data?.getBooleanExtra("card_result", false) ?: false
+                binding.layoutDraw.updateCardResult(cardResult)
+            }
+        }
+    }
+
 }
