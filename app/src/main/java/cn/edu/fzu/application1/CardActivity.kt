@@ -283,8 +283,8 @@ class CardActivity : AppCompatActivity() {
         val resultCode = Activity.RESULT_OK // You can use Activity.RESULT_CANCELED if the operation is canceled
         // Set the result with the data intent and the result code
         setResult(resultCode, data)
-        // Finish this activity and return to MainActivity
-        finish()
+        // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
+        supportFinishAfterTransition()
     }
 
     //根据随机数的值来判断是否中奖
