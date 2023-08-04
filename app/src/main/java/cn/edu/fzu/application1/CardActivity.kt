@@ -6,6 +6,7 @@ import android.content.Intent
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.transition.*
 import android.util.Log
 import android.view.Gravity
@@ -39,10 +40,16 @@ class CardActivity : AppCompatActivity() {
 
         binding = ActivityCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         //设置沉浸式
         ImmersionBar.with(this)
             .init()
+
+        //获取当前的动画程序时长缩放的值
+        val animationScale = Settings.Global.getFloat(this.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f)
+        //如果该值为0，则表示关闭了动画程序时长缩放的适配
+        val isAnimationScaleOff = animationScale == 0f
+        Log.i("TAG","isAnimationScaleOff is $isAnimationScaleOff")
+
 
         // 获取卡片视图和光束视图的引用
         val card = binding.card
@@ -207,7 +214,7 @@ class CardActivity : AppCompatActivity() {
                     // 显示关闭按钮
                     btn_close.visibility=View.VISIBLE
                     btn_close.setOnClickListener{
-                        backToMainActivity(isWinResult)
+                        backToMainActivity()
                     }
                 }
 
@@ -252,7 +259,21 @@ class CardActivity : AppCompatActivity() {
         animationSet.play(rotatePopup1).with(fadeRay2).with(scaleRay6).after(rotateCard5) // 第七步中的弹窗翻转、光束出现和光束缩放在卡片旋转之后同时播放
         animationSet.play(rotateRay1).after(rotatePopup1) // 第九步中的光束旋转在弹窗翻转之后播放
 
-        window.sharedElementEnterTransition.addListener(onEnd = { animationSet.start() })
+        if(!isAnimationScaleOff){
+            //动画缩放未关闭
+            window.sharedElementEnterTransition.addListener(onEnd = { animationSet.start() })
+        }else{
+            //动画缩放已关闭
+            isCardFlipped = true
+            card.visibility=View.INVISIBLE
+            popup.visibility=View.VISIBLE
+            // 显示关闭按钮
+            btn_close.visibility=View.VISIBLE
+            btn_close.setOnClickListener{
+                backToMainActivity()
+            }
+        }
+
 
     }
 
@@ -260,15 +281,15 @@ class CardActivity : AppCompatActivity() {
         super.onBackPressed()
         binding.card.rotation=0f
         animationSet.cancel()
-        backToMainActivity(isWinResult)
+        backToMainActivity()
     }
 
-    fun backToMainActivity(result:Int){
+    fun backToMainActivity(){
         // Create an Intent object to hold the data
         val data = Intent()
         if (isCardFlipped) {
             // Put the card result as an extra in the data intent
-            data.putExtra("card_result", result) // isWin() is a boolean value that indicates whether the card is win or lose
+            data.putExtra("card_result", isWinResult) // isWin() is a boolean value that indicates whether the card is win or lose
         } else {
             // 如果卡片没有翻开，那么显示未翻开的图片
             data.putExtra("card_result", 2) // isWin() is a boolean value that indicates whether the card is win or lose
