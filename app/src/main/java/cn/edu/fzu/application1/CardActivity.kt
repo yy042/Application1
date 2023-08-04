@@ -30,6 +30,7 @@ import kotlin.random.Random
 class CardActivity : AppCompatActivity() {
     private lateinit var binding:ActivityCardBinding
     private lateinit var animationSet:AnimatorSet
+    var isAnimationScaleOff=false
     var isWinResult=2 //默认是2，代表无结果
     // 创建一个变量，用来存储卡片是否已经翻开
     var isCardFlipped = false
@@ -47,7 +48,7 @@ class CardActivity : AppCompatActivity() {
         //获取当前的动画程序时长缩放的值
         val animationScale = Settings.Global.getFloat(this.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f)
         //如果该值为0，则表示关闭了动画程序时长缩放的适配
-        val isAnimationScaleOff = animationScale == 0f
+        isAnimationScaleOff = animationScale == 0f
         Log.i("TAG","isAnimationScaleOff is $isAnimationScaleOff")
 
 
@@ -264,7 +265,6 @@ class CardActivity : AppCompatActivity() {
             window.sharedElementEnterTransition.addListener(onEnd = { animationSet.start() })
         }else{
             //动画缩放已关闭
-            isCardFlipped = true
             card.visibility=View.INVISIBLE
             popup.visibility=View.VISIBLE
             // 显示关闭按钮
@@ -273,7 +273,6 @@ class CardActivity : AppCompatActivity() {
                 backToMainActivity()
             }
         }
-
 
     }
 
@@ -287,6 +286,9 @@ class CardActivity : AppCompatActivity() {
     fun backToMainActivity(){
         // Create an Intent object to hold the data
         val data = Intent()
+        if(isAnimationScaleOff){
+            isCardFlipped=true
+        }
         if (isCardFlipped) {
             // Put the card result as an extra in the data intent
             data.putExtra("card_result", isWinResult) // isWin() is a boolean value that indicates whether the card is win or lose
