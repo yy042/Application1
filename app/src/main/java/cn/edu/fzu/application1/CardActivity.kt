@@ -215,14 +215,14 @@ class CardActivity : AppCompatActivity() {
                     // 显示关闭按钮
                     btn_close.visibility=View.VISIBLE
                     btn_close.setOnClickListener{
-                        // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
-                        supportFinishAfterTransition()
                         // Create a new intent to store the return data
                         val returnIntent = Intent()
                         // Put the card result as a boolean extra
                         returnIntent.putExtra("card_result", isWinResult)
                         // Set the result code as OK and pass the return intent
                         setResult(Activity.RESULT_OK, returnIntent)
+                        // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
+                        supportFinishAfterTransition()
 
                     }
                 }

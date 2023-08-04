@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Override the onActivityResult method
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+/*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Check if the request code matches the one we set before
         if (requestCode == 1) {
@@ -151,6 +151,6 @@ class MainActivity : AppCompatActivity() {
                 binding.layoutDraw.updateCardResult(cardResult)
             }
         }
-    }
+    }*/
 
 }

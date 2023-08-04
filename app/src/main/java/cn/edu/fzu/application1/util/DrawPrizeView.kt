@@ -6,6 +6,10 @@ import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultCaller
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import cn.edu.fzu.application1.CardActivity
@@ -16,6 +20,19 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs){
     //初始化绑定类
     private val binding = ViewDrawPrizeBinding.inflate(LayoutInflater.from(context), this, true)
+
+    //创建一个ActivityResultLauncher类型的属性，用来存储注册的回调函数
+    private val resultLauncher = (context as ActivityResultCaller).registerForActivityResult(ActivityResultContracts.StartActivityForResult(), object :
+        ActivityResultCallback<ActivityResult> {
+        override fun onActivityResult(result: ActivityResult?) {
+            //根据result.resultCode和result.data来判断抽奖结果，并调用updateCardResult方法来更新UI
+            if (result?.resultCode == Activity.RESULT_OK) {
+                val cardResult = result.data?.getBooleanExtra("card_result", false) ?: false
+                updateCardResult(cardResult)
+            }
+        }
+    })
+
 
     init {
         orientation=VERTICAL
@@ -31,13 +48,8 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
                 ViewCompat.getTransitionName(binding.mainCard1) ?: "card" // 使用ViewCompat类来获取视图的transitionName，如果为空则使用默认值
             )
 
-            // 为启动CardActivity的Intent对象设置一个requestCode参数，用来标识这个请求
-            val requestCode = 1
-
-            // 使用context对象和options对象来启动这个Intent对象
-            (context as Activity).startActivityForResult(intent, requestCode, options.toBundle())
-
-
+            // 使用ActivityResultLauncher对象的launch方法来启动Intent对象，并传入options.toBundle()作为参数
+            resultLauncher.launch(intent, options)
         }
     }
 
