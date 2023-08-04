@@ -29,6 +29,8 @@ import kotlin.random.Random
 class CardActivity : AppCompatActivity() {
     private lateinit var animationSet:AnimatorSet
     val isWinResult=isWin()
+    // 创建一个变量，用来存储用户是否点击了返回键
+    var isBackPressed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -215,15 +217,7 @@ class CardActivity : AppCompatActivity() {
                     // 显示关闭按钮
                     btn_close.visibility=View.VISIBLE
                     btn_close.setOnClickListener{
-                        // Create a new intent to store the return data
-                        val returnIntent = Intent()
-                        // Put the card result as a boolean extra
-                        returnIntent.putExtra("card_result", isWinResult)
-                        // Set the result code as OK and pass the return intent
-                        setResult(Activity.RESULT_OK, returnIntent)
-                        // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
-                        supportFinishAfterTransition()
-
+                        backToMainActivity(isWinResult)
                     }
                 }
 
@@ -274,17 +268,23 @@ class CardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        isBackPressed = true
         super.onBackPressed()
+        backToMainActivity(isWinResult)
+    }
+
+    fun backToMainActivity(result:Boolean){
         // Create an Intent object to hold the data
         val data = Intent()
         // Put the card result as an extra in the data intent
-        data.putExtra("card_result", isWinResult) // isWin() is a boolean value that indicates whether the card is win or lose
+        data.putExtra("card_result", result) // isWin() is a boolean value that indicates whether the card is win or lose
         // Set a result code for this intent
         val resultCode = Activity.RESULT_OK // You can use Activity.RESULT_CANCELED if the operation is canceled
         // Set the result with the data intent and the result code
         setResult(resultCode, data)
         // 调用supportFinishAfterTransition()方法来结束当前Activity，并启动共享元素转场
         supportFinishAfterTransition()
+
     }
 
     //根据随机数的值来判断是否中奖
