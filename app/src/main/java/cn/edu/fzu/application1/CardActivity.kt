@@ -27,35 +27,18 @@ import javax.sql.DataSource
 import kotlin.random.Random
 
 class CardActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityCardBinding
     private lateinit var animationSet:AnimatorSet
-    val isWinResult=isWin()
-    // 创建一个变量，用来存储用户是否点击了返回键
-    var isBackPressed = false
+    var isWinResult=2 //默认是2，代表无结果
+    // 创建一个变量，用来存储卡片是否已经翻开
+    var isCardFlipped = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
 
-        val binding = ActivityCardBinding.inflate(layoutInflater)
+        binding = ActivityCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // 设置转场动画监听器
-    /*    window.sharedElementEnterTransition.addListener(object : Transition.TransitionListener {
-            override fun onTransitionStart(transition: Transition?) {
-                // 转场动画开始前，设置内部控件的缩放比例和位移距离
-                val scale = 0.5f // 假设缩小到1/2
-                val dx = (originalWidth - originalWidth * scale) / 2 // 假设水平方向居中
-                val dy = (originalHeight - originalHeight * scale) / 2 // 假设垂直方向居中
-                binding.tvCardTitle.scaleX = scale
-                binding.tvCardTitle.scaleY = scale
-                binding.tvCardTitle.translationX = -dx
-                binding.tvCardTitle.translationY = -dy
-
-                // 其他内部控件省略
-            }
-            // 其他方法省略
-        })
-        // 其他代码省略*/
 
         //设置沉浸式
         ImmersionBar.with(this)
@@ -65,11 +48,15 @@ class CardActivity : AppCompatActivity() {
         val card = binding.card
         val ray = binding.cardRay
         lateinit var popup:View
-        if (isWinResult){
+        popup=binding.cardLose
+        isWinResult=isWin()
+        Log.i("TAG","isWinResult is $isWinResult")
+        if (isWinResult==0){
             popup=binding.cardWin
         }else{
             popup=binding.cardLose
         }
+
         val cheer=binding.ivCheer
         val btn_close=binding.btnClose
 
@@ -166,6 +153,7 @@ class CardActivity : AppCompatActivity() {
             duration = 200 // 设置动画时间为0.2秒
             val distance=10000
             val scale=getResources().getDisplayMetrics().density * distance
+
             // 添加一个UpdateListener
             addUpdateListener {
                 // 在每次动画更新时都重新设置distance
@@ -178,6 +166,8 @@ class CardActivity : AppCompatActivity() {
                     // 动画开始时
                     popup.visibility = View.VISIBLE
                     popup.transitionName="card"
+                    // 动画开始时，设置isCardFlipped为true
+                    isCardFlipped = true
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
@@ -252,7 +242,6 @@ class CardActivity : AppCompatActivity() {
             interpolator = LinearInterpolator()
         }
 
-
         // 将所有的动画添加到动画集合中，并设置播放顺序
         animationSet.play(rotateCard1).with(scaleRay1)  // 第二步同时播放
         animationSet.play(rotateCard2).with(scaleRay2).after(rotateCard1)  // 第三步在第二步之后播放
@@ -268,17 +257,23 @@ class CardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        isBackPressed = true
         super.onBackPressed()
+        binding.card.rotation=0f
+        animationSet.cancel()
         backToMainActivity(isWinResult)
     }
 
-    fun backToMainActivity(result:Boolean){
+    fun backToMainActivity(result:Int){
         // Create an Intent object to hold the data
         val data = Intent()
-        // Put the card result as an extra in the data intent
-        data.putExtra("card_result", result) // isWin() is a boolean value that indicates whether the card is win or lose
-        // Set a result code for this intent
+        if (isCardFlipped) {
+            // Put the card result as an extra in the data intent
+            data.putExtra("card_result", result) // isWin() is a boolean value that indicates whether the card is win or lose
+        } else {
+            // 如果卡片没有翻开，那么显示未翻开的图片
+            data.putExtra("card_result", 2) // isWin() is a boolean value that indicates whether the card is win or lose
+        }
+         // Set a result code for this intent
         val resultCode = Activity.RESULT_OK // You can use Activity.RESULT_CANCELED if the operation is canceled
         // Set the result with the data intent and the result code
         setResult(resultCode, data)
@@ -288,17 +283,11 @@ class CardActivity : AppCompatActivity() {
     }
 
     //根据随机数的值来判断是否中奖
-    fun isWin(): Boolean {
-        // 生成一个0到99之间的随机整数
-        val number = Random.nextInt()%2
-        // 如果随机数小于50，则认为中奖，返回true
-        if (number == 0) {
-            return true
-        }
-        // 否则，认为没中奖，返回false
-        else {
-            return false
-        }
+    fun isWin(): Int {
+        // 生成一个随机的布尔值
+        val bool = Random.nextBoolean()
+        // 根据布尔值返回0或1
+        return if (bool) 0 else 1
     }
 
 }

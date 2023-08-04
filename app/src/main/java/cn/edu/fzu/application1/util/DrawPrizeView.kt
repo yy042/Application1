@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResult
@@ -15,6 +16,7 @@ import androidx.core.view.ViewCompat
 import cn.edu.fzu.application1.CardActivity
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.ViewDrawPrizeBinding
+import com.bumptech.glide.Glide
 
 class DrawPrizeView (context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs){
@@ -27,8 +29,9 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
         override fun onActivityResult(result: ActivityResult?) {
             //根据result.resultCode和result.data来判断抽奖结果，并调用updateCardResult方法来更新UI
             if (result?.resultCode == Activity.RESULT_OK) {
-                val cardResult = result.data?.getBooleanExtra("card_result", false) ?: false
+                val cardResult = result.data?.getIntExtra("card_result", 0) ?: 0
                 updateCardResult(cardResult)
+
             }
         }
     })
@@ -47,20 +50,24 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
                 binding.mainCard1,
                 ViewCompat.getTransitionName(binding.mainCard1) ?: "card" // 使用ViewCompat类来获取视图的transitionName，如果为空则使用默认值
             )
-
             // 使用ActivityResultLauncher对象的launch方法来启动Intent对象，并传入options.toBundle()作为参数
             resultLauncher.launch(intent, options)
         }
     }
 
-    fun updateCardResult(result:Boolean){
+    fun updateCardResult(result:Int){
         // 根据抽卡结果更新UI
-        if (result) {
+        if (result==2){
+            Glide.with(this).load(R.drawable.ic_flip_card).into(binding.mainCard1)
+        }
+        else if (result==0) {
             // Show the card win layout in the custom view
-            binding.mainCard1.setImageResource(R.drawable.ic_flip_card_win)
-        } else {
+            //binding.mainCard1.setImageResource(R.drawable.ic_flip_card_win)
+            Glide.with(this).load(R.drawable.ic_flip_card_win).into(binding.mainCard1)
+        } else if (result==1){
             // Show the card lose layout in the custom view
-            binding.mainCard1.setImageResource(R.drawable.ic_flip_card_lose)
+            //binding.mainCard1.setImageResource(R.drawable.ic_flip_card_lose)
+            Glide.with(this).load(R.drawable.ic_flip_card_lose).into(binding.mainCard1)
         }
 
         invalidate()
