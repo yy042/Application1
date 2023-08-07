@@ -277,10 +277,11 @@ class CardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         binding.card.rotation=0f
         animationSet.cancel()
         backToMainActivity()
+
+        super.onBackPressed()
     }
 
     fun backToMainActivity(){
