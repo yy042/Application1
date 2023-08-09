@@ -53,6 +53,7 @@
         android:paddingVertical="15dp"
         android:background="@drawable/bg_card_win"
         android:layout_marginTop="14dp"
+        android:transitionGroup="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +61,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tv_congrats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="恭喜您!"
@@ -70,6 +72,7 @@
             android:layout_marginTop="5dp"/>
 
         <LinearLayout
+            android:id="@+id/layout_coupon_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -120,6 +123,7 @@
             android:layout_marginTop="31dp"/>
 
         <TextView
+            android:id="@+id/tv_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="已发放至[我的奖品]"
@@ -148,7 +152,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

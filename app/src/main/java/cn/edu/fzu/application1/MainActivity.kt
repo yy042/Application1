@@ -23,6 +23,7 @@ import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import cn.edu.fzu.application1.entity.*
 import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
+import cn.edu.fzu.application1.util.Util.setupSpacingRecyclerView
 import cn.edu.fzu.application1.util.Util.setupWaterfall
 import cn.edu.fzu.application1.util.Util.transparentStatusBar
 import com.gyf.immersionbar.ImmersionBar
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding
     private lateinit var rvServiceAdapter: RvServicesAdapter
+    private lateinit var rv3ServiceAdapter: RvServicesAdapter
     private lateinit var rvTaskAdapter: RvTasksAdapter
     private lateinit var rvRecommendAdapter: RvRecommendsAdapter
     private lateinit var rvCardAdapter: RvCardsAdapter
@@ -53,7 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         //设置RvServices
         rvServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())
-        setupRecyclerView(
+        setupSpacingRecyclerView(
+            this,
             binding.rvServices, //传入recyclerView对象
             rvServiceAdapter,
             listOf( //传入数据列表
@@ -61,6 +64,20 @@ class MainActivity : AppCompatActivity() {
                 ItemService("开通自动充", R.drawable.ic_autorecharge, "专治忘充值"),
                 ItemService("电子发票", R.drawable.ic_receipt, "批量开票不排队"),
                 ItemService("充值记录", R.drawable.ic_bill, "可查全网记录")
+            ),
+            LinearLayoutManager.HORIZONTAL
+        )
+
+        //设置Rv3Services
+        rv3ServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())
+        setupSpacingRecyclerView(
+            this,
+            binding.rvServices3, //传入recyclerView对象
+            rv3ServiceAdapter,
+            listOf( //传入数据列表
+                ItemService("充流量", R.drawable.ic_mobiledata, "流量告急速订购"),
+                ItemService("开通自动充", R.drawable.ic_autorecharge, "专治忘充值"),
+                ItemService("电子发票", R.drawable.ic_receipt, "批量开票不排队")
             ),
             LinearLayoutManager.HORIZONTAL
         )
@@ -137,6 +154,22 @@ class MainActivity : AppCompatActivity() {
                 //do nothing
             }
         })
+
+        // 创建一个数据列表
+        val messages = listOf(
+            "《赋得古原草送别》",
+            "离离原上草，一岁一枯荣。",
+            "野火烧不尽，春风吹又生。",
+            "远芳侵古道，晴翠接荒城。",
+            "又送王孙去，萋萋满别情。"
+        )
+
+        val marqueeView=binding.marqueeView
+        marqueeView.setDataList(messages)
+        //二、开始滚动
+        marqueeView.startScroll()
+//或者定义刷新的时间
+        marqueeView.startScroll(2000)
     }
 
     // Override the onActivityResult method

@@ -1,31 +1,37 @@
 package cn.edu.fzu.application1
 
 import android.animation.*
+import android.annotation.TargetApi
 import android.app.Activity
+import android.app.SharedElementCallback
 import android.content.Intent
-import android.nfc.Tag
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Matrix
+import android.graphics.RectF
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.Settings
 import android.transition.*
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.animation.LinearInterpolator
-import android.view.animation.TranslateAnimation
-import android.widget.LinearLayout
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.transition.addListener
 import cn.edu.fzu.application1.databinding.ActivityCardBinding
-import cn.edu.fzu.application1.databinding.ActivityMainBinding
+import cn.edu.fzu.application1.util.ScaleTransition
+import cn.edu.fzu.application1.util.TextSizeTransition
+import cn.edu.fzu.application1.util.TextSizeTransitionView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.gyf.immersionbar.ImmersionBar
-import javax.sql.DataSource
 import kotlin.random.Random
+
 
 class CardActivity : AppCompatActivity() {
     private lateinit var binding:ActivityCardBinding
@@ -50,6 +56,22 @@ class CardActivity : AppCompatActivity() {
         //如果该值为0，则表示关闭了动画程序时长缩放的适配
         isAnimationScaleOff = animationScale == 0f
         Log.i("TAG","isAnimationScaleOff is $isAnimationScaleOff")
+
+/*        // 为tvTest设置自定义的转场动画类TextSizeTransition
+        TransitionSet().apply {
+            addTransition(TextSizeTransition())
+            addTarget(binding.tvTest)
+            window.sharedElementEnterTransition = this
+            window.sharedElementReturnTransition = this
+        }
+
+        val transition: Transition = TransitionSet()
+            .addTransition(ChangeTransform()).addTarget(TextView::class.java) // Only for TextViews
+            .addTransition(ChangeImageTransform())
+            .addTarget(ImageView::class.java) // Only for ImageViews
+            .addTransition(ChangeBounds()) // For both
+
+        window.setSharedElementEnterTransition(transition)*/
 
 
         // 获取卡片视图和光束视图的引用
@@ -281,7 +303,18 @@ class CardActivity : AppCompatActivity() {
         animationSet.cancel()
         backToMainActivity()
 
-        super.onBackPressed()
+       /* // 创建一个属性动画对象，并设置其target、propertyName、startValue和endValue属性
+        val animator = ObjectAnimator.ofFloat(binding.tvTest, "textSize", 26f, 8f)
+        // 启动属性动画对象
+        animator.start()*/
+
+        /*val backScaleAnimator = ObjectAnimator.ofPropertyValuesHolder(binding.tvTest,
+            PropertyValuesHolder.ofFloat("scaleX", 1f, 1/3f),
+            PropertyValuesHolder.ofFloat("scaleY", 1f, 1/3f)
+        )
+        backScaleAnimator.start()*/
+
+        super.onBackPressed() //这句应该放在onBackPressed()的最后，因为它会直接结束当前的Activity，而不会执行后面的代码。
     }
 
     fun backToMainActivity(){
@@ -293,6 +326,8 @@ class CardActivity : AppCompatActivity() {
         if (isCardFlipped) {
             // Put the card result as an extra in the data intent
             data.putExtra("card_result", isWinResult) // isWin() is a boolean value that indicates whether the card is win or lose
+
+
         } else {
             // 如果卡片没有翻开，那么显示未翻开的图片
             data.putExtra("card_result", 2) // isWin() is a boolean value that indicates whether the card is win or lose
@@ -313,5 +348,18 @@ class CardActivity : AppCompatActivity() {
         // 根据布尔值返回0或1
         return if (bool) 0 else 1
     }
+
+    // 扩展函数
+    fun View.scaleTo(ratio: Float): ObjectAnimator {
+        // Create an ObjectAnimator object with property values holder
+        val animator = ObjectAnimator.ofPropertyValuesHolder(
+            this, // The view object to be animated
+            PropertyValuesHolder.ofFloat("scaleX", 1f, ratio), // The scaleX property to be changed
+            PropertyValuesHolder.ofFloat("scaleY", 1f, ratio) // The scaleY property to be changed
+        )
+        // Return the animator object
+        return animator
+    }
+
 
 }

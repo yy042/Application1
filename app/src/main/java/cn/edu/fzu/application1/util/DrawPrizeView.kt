@@ -6,15 +6,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import android.transition.ChangeBounds
+import android.transition.ChangeTransform
+import android.transition.TransitionSet
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import cn.edu.fzu.application1.CardActivity
 import cn.edu.fzu.application1.R
@@ -68,6 +73,13 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
                     binding.mainCard1,
                     ViewCompat.getTransitionName(binding.mainCard1) ?: "card" // 使用ViewCompat类来获取视图的transitionName，如果为空则使用默认值
                 )
+
+                /*val p1 = Pair<View, String>(binding.mainCard1, ViewCompat.getTransitionName(binding.mainCard1) ?: "card")
+                val p2 = Pair<View, String>(binding.tvCongrats, ViewCompat.getTransitionName(binding.tvCongrats) ?: "text")
+
+                //调用makeSceneTransitionAnimation方法时，使用*运算符来展开Pair对象的数组
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, *arrayOf(p1, p2))*/
+
                 // 使用ActivityResultLauncher对象的launch方法来启动Intent对象，并传入options.toBundle()作为参数
                 resultLauncher.launch(intent, options)
             }
@@ -78,14 +90,14 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
     fun updateCardResult(result:Int){
         // 根据抽卡结果更新UI
         if (result==2){
-            binding.mainCard1.setImageResource(R.drawable.ic_flip_card)
+            binding.mainCard1.setBackgroundResource(R.drawable.ic_flip_card)
         }
         else if (result==0) {
             // Show the card win layout in the custom view
-            binding.mainCard1.setImageResource(R.drawable.ic_flip_card_win)
+            binding.mainCard1.setBackgroundResource(R.drawable.ic_flip_card_win)
         } else if (result==1){
             // Show the card lose layout in the custom view
-            binding.mainCard1.setImageResource(R.drawable.ic_flip_card_lose)
+            binding.mainCard1.setBackgroundResource(R.drawable.ic_flip_card_lose)
         }
 
         invalidate()
