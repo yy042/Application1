@@ -93,7 +93,11 @@ class MyTextSwitcher(private val mContext: Context, attributeSet: AttributeSet? 
                 textView.ellipsize = TextUtils.TruncateAt.END
             }
             "4" -> {
+                //如果是，就让文本开始滚动
+                textView.isSelected = true
+                textView.setSingleLine()
                 textView.ellipsize = TextUtils.TruncateAt.MARQUEE
+
             }
         }
         when (textStyle) {

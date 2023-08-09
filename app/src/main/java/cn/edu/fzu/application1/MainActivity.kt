@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
         // 创建一个数据列表
         val messages = listOf(
-            "《赋得古原草送别》",
+            "《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》",
             "离离原上草，一岁一枯荣。",
             "野火烧不尽，春风吹又生。",
             "远芳侵古道，晴翠接荒城。",
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         //二、开始滚动
         marqueeView.startScroll()
 //或者定义刷新的时间
-        marqueeView.startScroll(2000)
+        marqueeView.startScroll(4000)
     }
 
     // Override the onActivityResult method

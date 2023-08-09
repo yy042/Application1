@@ -314,9 +314,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:animDirection="bottom2top"
-                    app:ellipsize="end"
+                    app:ellipsize="marquee"
                     app:maxLines="2"
-                    app:textColor="@color/black"
+                    app:mqtextColor="@color/black"
                     app:textSize="20sp"
                     app:textStyle="normal"/>
 
