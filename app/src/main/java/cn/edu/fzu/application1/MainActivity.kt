@@ -4,16 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.transition.ChangeBounds
 import android.transition.ChangeTransform
 import android.transition.TransitionSet
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import cn.edu.fzu.application1.entity.*
+import cn.edu.fzu.application1.util.MarqueeLayout
 import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
 import cn.edu.fzu.application1.util.Util.setupSpacingRecyclerView
@@ -155,6 +159,16 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        //设置任意布局跑马灯View
+        val count = 5
+        val views: MutableList<View> = ArrayList()
+        val inflater = LayoutInflater.from(this)
+        for (i in 0 until count) {
+            views.add(inflateView(inflater, "这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题$i", "金豆$i"))
+        }
+        binding.layoutMarqueeHint.setViewList(views)
+
+        //设置textSwitcher
         // 创建一个数据列表
         val messages = listOf(
             "《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》《赋得古原草送别》",
@@ -163,14 +177,41 @@ class MainActivity : AppCompatActivity() {
             "远芳侵古道，晴翠接荒城。",
             "又送王孙去，萋萋满别情。"
         )
-
         val marqueeView=binding.marqueeView
         marqueeView.setDataList(messages)
         //二、开始滚动
         marqueeView.startScroll()
-//或者定义刷新的时间
-        marqueeView.startScroll(4000)
+        //或者定义刷新的时间
+        marqueeView.startScroll(8000)
+
+
     }
+
+    private fun inflateView(
+        inflater: LayoutInflater, //不要使用可空类型
+        name: String,
+        desc: String
+    ): View {
+        //不要重新创建inflater对象，直接使用传入的参数
+        //不要把marqueeRoot作为父容器传入，而是传入null
+        val view = inflater.inflate(R.layout.item_marquee, null, false)
+        //检查view是否为null，如果是，则抛出异常或返回默认view
+        if (view == null) {
+            throw RuntimeException("Failed to inflate view")
+            //或者 return TextView(this).apply { text = "Error" }
+        }
+        val viewName = view.findViewById<TextView>(R.id.marquee_name)
+        val viewDesc = view.findViewById<TextView>(R.id.marquee_desc)
+        viewName.text = name
+        //设置文本字数超出时的水平滚动
+        viewName.isSelected = true
+        viewName.setSingleLine()
+        viewName.ellipsize = TextUtils.TruncateAt.MARQUEE
+
+        viewDesc.text = desc
+        return view
+    }
+
 
     // Override the onActivityResult method
 /*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

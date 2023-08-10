@@ -24,6 +24,7 @@ import androidx.core.view.ViewCompat
 import cn.edu.fzu.application1.CardActivity
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.ViewDrawPrizeBinding
+import cn.edu.fzu.application1.util.Util.dpToPx
 import com.bumptech.glide.Glide
 
 class DrawPrizeView (context: Context, attrs: AttributeSet) :
@@ -45,7 +46,6 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
             }
         }
     })
-
 
     init {
         orientation=VERTICAL
@@ -85,6 +85,24 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
             }
 
         }
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        val parentWidth = binding.layoutCards.measuredWidth
+        val spacing = 10.dpToPx(context)
+        val imageViewWidth = (parentWidth - (2 * spacing))/3
+        //将计算好的宽度设置给ImageView
+        binding.mainCard1.layoutParams.width = imageViewWidth
+        binding.mainCard2.layoutParams.width = imageViewWidth
+        binding.mainCard3.layoutParams.width = imageViewWidth
+        binding.mainCardResult.layoutParams.width = imageViewWidth
+        //实时刷新页面
+        binding.mainCard1.requestLayout()
+        binding.mainCard2.requestLayout()
+        binding.mainCard3.requestLayout()
+        binding.mainCardResult.requestLayout()
     }
 
     fun updateCardResult(result:Int){

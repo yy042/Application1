@@ -48,10 +48,18 @@ object Util {
         val layoutManager = LinearLayoutManager(recyclerView.context, orientation, false)
         recyclerView.layoutManager = layoutManager
 
-        // 调用扩展函数，将dp转换为对应的px值
+       /* // 调用扩展函数，将dp转换为对应的px值
         val spacingInPx = spacingInDp.dpToPx(context)
         // 创建一个CustomSpacingItemDecoration对象，指定间距大小（单位为像素）
         val itemDecoration = CustomSpacingItemDecoration(spacingInPx)
+
+        // 给RecyclerView添加CustomSpacingItemDecoration对象
+        recyclerView.addItemDecoration(itemDecoration)*/
+
+        // 调用扩展函数，将dp转换为对应的px值
+        val spacingInPx = spacingInDp.dpToPx(context)
+        // 创建一个CustomSpacingItemDecoration对象，指定间距大小（单位为像素）
+        val itemDecoration = ItemSpacingDecoration(spacingInPx)
 
         // 给RecyclerView添加CustomSpacingItemDecoration对象
         recyclerView.addItemDecoration(itemDecoration)

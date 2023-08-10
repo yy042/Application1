@@ -226,7 +226,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_rechargehint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -239,56 +239,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <ImageView
-                    android:layout_width="23dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_beans"
-                    android:layout_marginLeft="2dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <cn.edu.fzu.application1.util.MarqueeLayout
+                    android:id="@+id/layout_marqueeHint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="充值奖励 "
-                    android:textColor="#666666"
-                    android:textSize="13sp"
-                    android:layout_marginLeft="6dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+80金豆"
-                    android:textColor="#fe5561"
-                    android:textSize="13sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="，多充多得哦～ "
-                    android:textColor="#666666"
-                    android:textSize="13sp"
-                    />
-
-                <TextView
-                    android:layout_width="52dp"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="18dp"
-                    android:background="@drawable/bg_btn_red"
-                    android:gravity="center"
-                    android:text="兑好物"
-                    android:textColor="#ffffff"
-                    android:textSize="11sp" />
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:src="@drawable/ic_close"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="6dp"/>
+                    android:layout_marginRight="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/layout_marquee"
@@ -317,9 +288,8 @@
                     app:ellipsize="marquee"
                     app:maxLines="2"
                     app:mqtextColor="@color/black"
-                    app:textSize="20sp"
+                    app:textSize="13sp"
                     app:textStyle="normal"/>
-
 
             </LinearLayout>
 
