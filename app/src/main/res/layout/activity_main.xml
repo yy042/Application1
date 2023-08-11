@@ -7,38 +7,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="@color/bg_main"
-    android:paddingHorizontal="13dp">
+    android:background="@color/bg_main">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_main"
+    <cn.edu.fzu.application1.util.ImmersiveToolbar
+        android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        app:contentInsetStart="0dp"
-        android:layout_height="57dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="9dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_return"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="评价"
-            android:textColor="#333333"
-            android:textSize="15sp"
-            android:layout_gravity="end"
-            />
-
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="57dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:paddingHorizontal="13dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,6 +39,7 @@
                     android:id="@+id/layout_success"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"

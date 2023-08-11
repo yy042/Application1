@@ -25,6 +25,7 @@ import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import cn.edu.fzu.application1.entity.*
 import cn.edu.fzu.application1.util.MarqueeLayout
+import cn.edu.fzu.application1.util.Util.dpToPx
 import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
 import cn.edu.fzu.application1.util.Util.setupSpacingRecyclerView
@@ -46,16 +47,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+/*
          //设置标题栏
         ImmersionBar.with(this)
             .statusBarColor(R.color.bg_main)//设置状态栏颜色
             .statusBarDarkFont(true) //设置状态栏字体为深色
             .titleBar(binding.tbMain) //指定标题栏为toolbar
             .init()
-
+*/
         //设置沉浸式状态栏的另一种方法
         //transparentStatusBar(window) //使状态栏背景透明
         //setStatusBarTextColor(window,false)//根据背景色设置状态栏文字颜色
+
+        //设置标题栏
+        binding.mainToolbar.setHorizontalPadding(12.dpToPx(this))
+        binding.mainToolbar.setBarColor(R.color.bg_main,true)
 
         //设置RvServices
         rvServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())

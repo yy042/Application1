@@ -36,4 +36,14 @@
         </attr>
     </declare-styleable>
 
+    <!-- 定义一个自定义标题栏View的属性集合 -->
+    <declare-styleable name="ImmersiveToolbar">
+        <!-- 定义一个标题文本的属性，类型为字符串，可以在布局文件中设置 -->
+        <attr name="titleText" format="string" />
+        <attr name="verticalPadding" format="dimension" />
+        <attr name="horizontalPadding" format="dimension" />
+        <attr name="statusBarColor" format="color" />
+        <attr name="statusBarDarkFont" format="boolean" />
+    </declare-styleable>
+
 </resources>
