@@ -1,6 +1,7 @@
 package cn.edu.fzu.application1
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
 import cn.edu.fzu.application1.entity.*
+import cn.edu.fzu.application1.util.ImmersiveToolbar
 import cn.edu.fzu.application1.util.MarqueeLayout
 import cn.edu.fzu.application1.util.Util.dpToPx
 import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
@@ -62,6 +64,18 @@ class MainActivity : AppCompatActivity() {
         //设置标题栏
         binding.mainToolbar.setHorizontalPadding(12.dpToPx(this))
         binding.mainToolbar.setBarColor(R.color.bg_main,true)
+        binding.mainToolbar.setTitleText("")
+        binding.mainToolbar.setOnBackClickListener(object:ImmersiveToolbar.OnBackClickListener{
+            override fun onBackClick() {
+                // 创建一个Dialog对象
+                val dialog = Dialog(this@MainActivity)
+                // 调用setContentView方法，传入弹窗样式XML文件的id
+                dialog.setContentView(R.layout.layout_exit_popup)
+                // 调用show方法来显示弹窗
+                dialog.show()
+            }
+
+        })
 
         //设置RvServices
         rvServiceAdapter= RvServicesAdapter(R.layout.item_service,mutableListOf())

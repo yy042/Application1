@@ -9,8 +9,10 @@
     <ImageView
         android:id="@+id/ivBack"
         android:layout_width="9dp"
-        android:layout_height="15dp"
+        android:layout_height="0dp"
         android:src="@drawable/ic_return"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="3:5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

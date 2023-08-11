@@ -4,13 +4,17 @@ package cn.edu.fzu.application1.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.TouchDelegate
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.IconTextviewBinding
 import cn.edu.fzu.application1.databinding.ImmersiveToolbarBinding
+import cn.edu.fzu.application1.util.Util.dpToPx
 import com.gyf.immersionbar.ImmersionBar
 
 // 定义一个自定义标题栏View类，继承自Toolbar
@@ -58,6 +62,26 @@ class ImmersiveToolbar @JvmOverloads constructor(
         // 设置返回按钮的点击事件监听器，调用接口中的方法
         binding.ivBack?.setOnClickListener {
             onBackClickListener?.onBackClick()
+            // 获取返回按钮的父视图
+            val parent = binding.ivBack.parent as View
+            // 在父视图布局完成后执行
+            parent.post {
+                //扩大返回按钮的点击区域
+                // 创建一个矩形对象，用来存储返回按钮的边界
+                val rect = Rect()
+                // 获取返回按钮的边界，并赋值给矩形对象
+                binding.ivBack.getHitRect(rect)
+                val enlarge=30.dpToPx(context)
+                // 扩大矩形对象的边界，分别增加20dp
+                rect.top -= enlarge
+                rect.left -= enlarge
+                rect.bottom += enlarge
+                rect.right += enlarge
+                // 创建一个TouchDelegate对象，传入矩形对象和返回按钮对象
+                val touchDelegate = TouchDelegate(rect, binding.ivBack)
+                // 把TouchDelegate对象设置给父视图
+                parent.touchDelegate = touchDelegate
+            }
         }
 
         // 使用ImmersionBar库处理沉浸式，设置状态栏和标题栏颜色一致，以及其他参数
