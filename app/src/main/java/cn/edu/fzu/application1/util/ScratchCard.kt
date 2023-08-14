@@ -70,11 +70,15 @@ class ScratchCard(context: Context, attrs: AttributeSet) :
     }
 
     // 在自定义 View 的 onTouchEvent() 方法中重写的，该方法会在 View 被触摸时被调用，参数 event 是一个 MotionEvent 对象，表示触摸事件的信息。
+    // 在此方法中也顺便进行了滑动冲突的处理。
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // 使用 when 表达式来判断触摸事件的动作类型
         when (event.action) {
             // 如果是按下动作
             MotionEvent.ACTION_DOWN -> {
+                // 请求父布局不要拦截事件，让自定义刮卡类处理事件
+                // 事件拦截：谁拦截，谁处理
+                parent.requestDisallowInterceptTouchEvent(true)
                 // 将 Path 对象移动到按下的坐标点
                 mPath.moveTo(event.x, event.y)
                 // 记录按下的坐标点作为起始点
@@ -85,6 +89,8 @@ class ScratchCard(context: Context, attrs: AttributeSet) :
             }
             // 如果是移动动作
             MotionEvent.ACTION_MOVE -> {
+                // 请求父布局不要拦截事件，让自定义刮卡类处理事件
+                parent.requestDisallowInterceptTouchEvent(true)
                 // 计算起始点和当前点的中点作为终点
                 val endX = (mStartX + event.x) / 2
                 val endY = (mStartY + event.y) / 2
@@ -96,6 +102,8 @@ class ScratchCard(context: Context, attrs: AttributeSet) :
             }
             // 其他类型的动作不做处理
             else -> {
+                // 请求父布局可以拦截事件，恢复正常的滑动逻辑
+                parent.requestDisallowInterceptTouchEvent(false)
             }
         }
         // 调用 postInvalidate() 方法使 View 无效，触发 onDraw() 方法重新绘制 View
