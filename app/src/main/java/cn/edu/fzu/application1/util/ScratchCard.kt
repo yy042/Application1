@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import cn.edu.fzu.application1.R
 
 // 定义一个ScratchCard类，继承自View

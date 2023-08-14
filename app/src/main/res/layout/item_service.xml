@@ -17,7 +17,6 @@
         app:layout_constraintWidth_percent="0.247"
         android:layout_height="0dp"
         android:src="@drawable/ic_mobiledata"
-        android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="21:24"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintEnd_toEndOf="parent"
