@@ -46,4 +46,9 @@
         <attr name="statusBarDarkFont" format="boolean" />
     </declare-styleable>
 
+    <!-- 定义一个自定义刮刮卡View的属性集合 -->
+    <declare-styleable name="ScratchCard">
+        <attr name="srcResult" format="reference" />
+        <attr name="srcFront" format="reference" />
+    </declare-styleable>
 </resources>
