@@ -54,6 +54,7 @@
     </LinearLayout>
 
     <cn.edu.fzu.application1.util.ScratchCard
+        android:id="@+id/scratchCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcResult="@drawable/pic_scratch_win"

@@ -23,7 +23,7 @@ class ScratchCard @JvmOverloads constructor(
     private var bitmapWidth = 0
     private var bitmapHeight = 0
 
-    private var mSrcResult: Bitmap
+    public var mSrcResult: Bitmap
     private var mSrcFront: Bitmap
     private lateinit var mDstBitmap: Bitmap
     private val mPaint: Paint
@@ -88,18 +88,20 @@ class ScratchCard @JvmOverloads constructor(
             mSrcFront.height.toFloat() / mSrcFront.width.toFloat() //不转换为Float的话ratio会是0
         bitmapWidth = measuredWidth
         bitmapHeight = (bitmapWidth * ratio).toInt()
+        // createScaledBitmap()会根据给定的宽度和高度来裁剪原始Bitmap对象。
+        // 如果给定的宽度和高度与原始Bitmap对象的宽高比不一致，那么缩放后的Bitmap对象就会被裁剪掉一部分，从而影响缩放效果。
         mSrcResult = Bitmap.createScaledBitmap(
-            mSrcResult!!,
+            mSrcResult,
             bitmapWidth,
             bitmapHeight,
             true
-        ) // 将图片缩放到指定大小
+        ) // 将图片缩放（实际上是裁剪）到指定大小
         mSrcFront = Bitmap.createScaledBitmap(
-            mSrcFront!!,
+            mSrcFront,
             bitmapWidth,
             bitmapHeight,
             true
-        ) // 将图片缩放到指定大小
+        ) // 将图片缩放（实际上是裁剪）到指定大小
 
         mDstBitmap = Bitmap.createBitmap(
             mSrcFront.width,
@@ -212,26 +214,17 @@ class ScratchCard @JvmOverloads constructor(
         }
     }
 
-
     fun setSrcResult(drawableId: Int) {
-        val drawable = ContextCompat.getDrawable(context, drawableId)
-        val bitmap = drawable?.toBitmap()
-        if (bitmap != null) {
-            mSrcResult = bitmap
-        }
+        // decodeResource()方法会根据当前设备的屏幕密度（density）来缩放图片，可能使它的宽度和高度与原始图片的宽高比不一致
+        // 所以此处不应该将bitmap赋值给mSrcResult，而应该使用decodeResource()
+        mSrcResult =
+            BitmapFactory.decodeResource(resources, drawableId)
         invalidate() // 重新绘制View
     }
 
     fun setSrcFront(drawableId: Int) {
-        mStartImage.setImageResource(drawableId)
-        //必须给view设置与前景图一样的背景，否则无法绘制
-        this.setBackgroundResource(drawableId)
-
-        val drawable = ContextCompat.getDrawable(context, drawableId)
-        val bitmap = drawable?.toBitmap()
-        if (bitmap != null) {
-            mSrcFront = bitmap
-        }
+        mSrcFront =
+            BitmapFactory.decodeResource(resources, drawableId)
         invalidate() // 重新绘制View
     }
 }

@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.adapter.ViewPagerAdapter
 import cn.edu.fzu.application1.databinding.ViewScratchCardBinding
 import cn.edu.fzu.application1.fragment.ScratchCardFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlin.random.Random
 
 class ScratchCardView (context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs) {
@@ -34,5 +36,18 @@ class ScratchCardView (context: Context, attrs: AttributeSet) :
             tab.text = titles[position]
         }.attach() // 调用attach方法来完成关联
 
+        if(isWin()){
+            binding.scratchCard.setSrcResult(R.drawable.pic_scratch_win)
+        }else{
+            binding.scratchCard.setSrcResult(R.drawable.pic_scratch_lose)
+        }
+    }
+
+    //根据随机数的值来判断是否中奖
+    fun isWin(): Boolean {
+        // 生成一个随机的布尔值
+        val bool = Random.nextBoolean()
+        // 根据布尔值返回0或1
+        return bool
     }
 }

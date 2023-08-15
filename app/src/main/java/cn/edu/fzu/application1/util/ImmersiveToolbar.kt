@@ -118,6 +118,7 @@ class ImmersiveToolbar @JvmOverloads constructor(
     // 定义一个设置水平方向上的padding的方法，供外部调用
     fun setHorizontalPadding(padding: Int) {
         horizontalPadding = padding
+        this.setPaddingRelative(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
         requestLayout() // 请求重新布局
     }
 
@@ -129,6 +130,7 @@ class ImmersiveToolbar @JvmOverloads constructor(
     // 定义一个设置垂直方向上的padding的方法，供外部调用
     fun setVerticalPadding(padding: Int) {
         verticalPadding = padding
+        this.setPaddingRelative(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
         requestLayout() // 请求重新布局
     }
 
