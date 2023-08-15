@@ -31,14 +31,20 @@ class ScratchCard @JvmOverloads constructor(
     private var mStartX: Float = 0f
     private var mStartY: Float = 0f
 
-    //初始化绑定类
-    private val binding = ScratchCardBinding.inflate(LayoutInflater.from(context), this, true)
-
-    // 增加一个ImageView来显示“刮一刮”的图片
-    private val mStartImage: ImageView = binding.btnScratch
-
     // 增加一个变量来控制是否可以刮卡，默认为false，只有当点击或者刮动“开始刮”的图片时才为true
     private var isScratchable = false
+    // 刮奖完成的阈值（百分比）
+    private val mCompleteThreshold = 0.25f
+    // 统计透明像素的个数
+    private var transparentCount = 0
+
+    // 刮奖完成的标志位
+    private var mIsCompleted = false
+
+    //初始化绑定类
+    private val binding = ScratchCardBinding.inflate(LayoutInflater.from(context), this, true)
+    // 增加一个ImageView来显示“刮一刮”的图片
+    private val mStartImage: ImageView = binding.btnScratch
 
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
@@ -132,6 +138,9 @@ class ScratchCard @JvmOverloads constructor(
             mPaint.xfermode = null
             canvas.restoreToCount(layerId)
         }
+
+        // 检查刮奖比例是否超出1/4
+        checkScratchRatio()
     }
 
     // 增加一个触摸事件，当用户刮动“开始刮”的图片时，也隐藏ImageView并设置ScratchCard为可刮状态，并调用父类方法
@@ -176,6 +185,33 @@ class ScratchCard @JvmOverloads constructor(
         }
         return true
     }
+
+    private fun checkScratchRatio() {
+        // 如果已经完成，则直接返回
+        if (mIsCompleted) return
+
+        // 创建一个新线程，用于异步处理刮奖完成的检查
+        // 获取覆盖层bitmap的像素数组
+        val pixels = IntArray(bitmapWidth * bitmapHeight)
+        mSrcFront?.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight)
+
+        for (pixel in pixels) {
+            if (pixel == Color.TRANSPARENT) {
+                transparentCount++
+            }
+        }
+
+        // 计算刮开的百分比
+        val percent = transparentCount.toFloat() / pixels.size
+
+        // 如果百分比超过了阈值，则认为刮奖完成，并回调接口通知外部
+        if (percent >= mCompleteThreshold) {
+            mIsCompleted = true
+            isScratchable = false
+            invalidate()
+        }
+    }
+
 
     fun setSrcResult(drawableId: Int) {
         val drawable = ContextCompat.getDrawable(context, drawableId)
