@@ -11,22 +11,33 @@
         android:id="@+id/scratchFront"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="668:214"
         android:src="@drawable/layer_scratch_front"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="668:214"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/btn_scratch"
-        android:layout_width="0dp"
-        android:layout_height="61dp"
+        android:layout_width="116dp"
+        android:layout_height="37dp"
         android:src="@drawable/pic_btn_scratch"
-        app:layout_constraintDimensionRatio="296:118"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/scratchHand"
+        android:layout_width="52dp"
+        android:layout_height="46dp"
+        android:src="@drawable/pic_scratch_hand"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_scratch"
+        app:layout_constraintTop_toTopOf="@+id/btn_scratch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
