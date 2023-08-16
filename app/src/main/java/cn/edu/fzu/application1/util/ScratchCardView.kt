@@ -17,10 +17,13 @@ class ScratchCardView (context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs) {
     //初始化绑定类
     private val binding = ViewScratchCardBinding.inflate(LayoutInflater.from(context), this, true)
+    // 定义一个int变量来记录剩余的次数
+    private var chanceNum=3
 
     init {
         orientation = VERTICAL
 
+        // 设置ViewPager2
         val pagerAdapter= ViewPagerAdapter(context as FragmentActivity)
         // 给adapter添加四个fragment对象，可以自定义fragment的内容和布局
         pagerAdapter.addFragment(ScratchCardFragment())
@@ -36,6 +39,26 @@ class ScratchCardView (context: Context, attrs: AttributeSet) :
             tab.text = titles[position]
         }.attach() // 调用attach方法来完成关联
 
+        // 随机产生刮卡抽奖结果
+        setScratchResult()
+
+        // “再刮一次”绑定事件
+        binding.tvRetry.setOnClickListener{
+            if (chanceNum > 0) {
+                binding.scratchCard.reset()
+                setScratchResult()
+                chanceNum-- // 剩余次数减一
+                binding.tvChanceNum.text = "累计剩余${chanceNum}次" // 更新显示的文本
+            }
+            // 如果剩余次数为0，就禁用“再刮一次”按钮
+            if (chanceNum == 0) {
+                binding.tvRetry.isEnabled = false // 禁用按钮
+            }
+        }
+    }
+
+    // 随机产生刮卡抽奖结果
+    fun setScratchResult(){
         if(isWin()){
             binding.scratchCard.setSrcResult(R.drawable.pic_scratch_win)
         }else{

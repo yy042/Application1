@@ -61,34 +61,25 @@
         android:layout_marginTop="9dp">
 
         <ImageView
-            android:id="@+id/main_card_result"
-            android:layout_width="97dp"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_flip_card"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
             android:id="@+id/main_card1"
-            android:layout_width="97dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/ic_flip_card"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/main_card2"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/main_card2"
-            android:layout_width="97dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/ic_flip_card"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginLeft="10dp"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintLeft_toRightOf="@id/main_card1"
             app:layout_constraintRight_toLeftOf="@id/main_card3"
@@ -96,13 +87,25 @@
 
         <ImageView
             android:id="@+id/main_card3"
-            android:layout_width="97dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/ic_flip_card"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginLeft="10dp"
             app:layout_constraintLeft_toRightOf="@id/main_card2"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/main_card_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_flip_card"
+            android:scaleType="centerCrop"
+            android:transitionName="card"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

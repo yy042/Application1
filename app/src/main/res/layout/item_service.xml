@@ -19,6 +19,7 @@
         android:src="@drawable/ic_mobiledata"
         app:layout_constraintDimensionRatio="21:24"
         app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

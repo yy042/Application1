@@ -56,7 +56,7 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
         isAnimationScaleOff = animationScale == 0f
         Log.i("TAG","isAnimationScaleOff is $isAnimationScaleOff")
 
-        binding.mainCard1.setOnClickListener{
+        binding.mainCardResult.setOnClickListener{
             // 创建一个Intent对象，指定要跳转到的Activity类
             val intent = Intent(context, CardActivity::class.java)
 
@@ -70,11 +70,11 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
                 // 创建一个 ActivityOptionsCompat 对象
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     context as Activity, // 需要将context强制转换为Activity类型
-                    binding.mainCard1,
-                    ViewCompat.getTransitionName(binding.mainCard1) ?: "card" // 使用ViewCompat类来获取视图的transitionName，如果为空则使用默认值
+                    binding.mainCardResult,
+                    ViewCompat.getTransitionName(binding.mainCardResult) ?: "card" // 使用ViewCompat类来获取视图的transitionName，如果为空则使用默认值
                 )
 
-                /*val p1 = Pair<View, String>(binding.mainCard1, ViewCompat.getTransitionName(binding.mainCard1) ?: "card")
+                /*val p1 = Pair<View, String>(binding.mainCardResult, ViewCompat.getTransitionName(binding.mainCardResult) ?: "card")
                 val p2 = Pair<View, String>(binding.tvCongrats, ViewCompat.getTransitionName(binding.tvCongrats) ?: "text")
 
                 //调用makeSceneTransitionAnimation方法时，使用*运算符来展开Pair对象的数组
@@ -87,35 +87,17 @@ class DrawPrizeView (context: Context, attrs: AttributeSet) :
         }
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-
-        val parentWidth = binding.layoutCards.measuredWidth
-        val spacing = 10.dpToPx(context)
-        val imageViewWidth = (parentWidth - (2 * spacing))/3
-        //将计算好的宽度设置给ImageView
-        binding.mainCard1.layoutParams.width = imageViewWidth
-        binding.mainCard2.layoutParams.width = imageViewWidth
-        binding.mainCard3.layoutParams.width = imageViewWidth
-        binding.mainCardResult.layoutParams.width = imageViewWidth
-        //实时刷新页面
-        binding.mainCard1.requestLayout()
-        binding.mainCard2.requestLayout()
-        binding.mainCard3.requestLayout()
-        binding.mainCardResult.requestLayout()
-    }
-
     fun updateCardResult(result:Int){
         // 根据抽卡结果更新UI
         if (result==2){
-            binding.mainCard1.setBackgroundResource(R.drawable.ic_flip_card)
+            binding.mainCardResult.setImageResource(R.drawable.ic_flip_card)
         }
         else if (result==0) {
             // Show the card win layout in the custom view
-            binding.mainCard1.setBackgroundResource(R.drawable.ic_flip_card_win)
+            binding.mainCardResult.setImageResource(R.drawable.ic_flip_card_win)
         } else if (result==1){
             // Show the card lose layout in the custom view
-            binding.mainCard1.setBackgroundResource(R.drawable.ic_flip_card_lose)
+            binding.mainCardResult.setImageResource(R.drawable.ic_flip_card_lose)
         }
 
         invalidate()

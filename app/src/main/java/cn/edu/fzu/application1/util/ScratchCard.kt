@@ -19,11 +19,14 @@ class ScratchCard @JvmOverloads constructor(
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
-
+    // 定义两个成员变量来存储资源ID
+    private var srcResultId: Int
+    private var srcFrontId: Int
+    // 定义存储图片应设置的宽高的变量
     private var bitmapWidth = 0
     private var bitmapHeight = 0
 
-    public var mSrcResult: Bitmap
+    private var mSrcResult: Bitmap
     private var mSrcFront: Bitmap
     private lateinit var mDstBitmap: Bitmap
     private val mPaint: Paint
@@ -31,13 +34,12 @@ class ScratchCard @JvmOverloads constructor(
     private var mStartX: Float = 0f
     private var mStartY: Float = 0f
 
-    // 增加一个变量来控制是否可以刮卡，默认为false，只有当点击或者刮动“开始刮”的图片时才为true
+    // 增加一个变量来控制是否可以刮卡，默认为false，只有当点击或者刮动“刮一刮”按钮时才为true
     private var isScratchable = false
     // 刮奖完成的阈值（百分比）
     private val mCompleteThreshold = 0.25f
     // 统计透明像素的个数
     private var transparentCount = 0
-
     // 刮奖完成的标志位
     private var mIsCompleted = false
 
@@ -66,8 +68,8 @@ class ScratchCard @JvmOverloads constructor(
 
         // 从XML属性获取drawable资源id
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScratchCard)
-        val srcResultId = typedArray.getResourceId(R.styleable.ScratchCard_srcResult, R.drawable.pic_scratch_win)
-        val srcFrontId = typedArray.getResourceId(R.styleable.ScratchCard_srcFront, R.drawable.layer_scratch_front)
+        srcResultId = typedArray.getResourceId(R.styleable.ScratchCard_srcResult, R.drawable.pic_scratch_win)
+        srcFrontId = typedArray.getResourceId(R.styleable.ScratchCard_srcFront, R.drawable.layer_scratch_front)
         typedArray.recycle()
 
         //初始化两张图片
@@ -192,7 +194,6 @@ class ScratchCard @JvmOverloads constructor(
         // 如果已经完成，则直接返回
         if (mIsCompleted) return
 
-        // 创建一个新线程，用于异步处理刮奖完成的检查
         // 获取覆盖层bitmap的像素数组
         val pixels = IntArray(bitmapWidth * bitmapHeight)
         mSrcFront?.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight)
@@ -206,7 +207,7 @@ class ScratchCard @JvmOverloads constructor(
         // 计算刮开的百分比
         val percent = transparentCount.toFloat() / pixels.size
 
-        // 如果百分比超过了阈值，则认为刮奖完成，并回调接口通知外部
+        // 如果百分比超过了阈值，则认为刮奖完成
         if (percent >= mCompleteThreshold) {
             mIsCompleted = true
             isScratchable = false
@@ -225,6 +226,29 @@ class ScratchCard @JvmOverloads constructor(
     fun setSrcFront(drawableId: Int) {
         mSrcFront =
             BitmapFactory.decodeResource(resources, drawableId)
+        invalidate() // 重新绘制View
+    }
+
+    fun reset(){
+        // 重置标志
+        mIsCompleted=false
+        isScratchable = true
+        // 重新初始化刮刮卡视图的所有属性
+        mSrcResult = BitmapFactory.decodeResource(resources, srcResultId)
+        mSrcFront = BitmapFactory.decodeResource(resources, srcFrontId)
+        // 必须给view设置与前景图一样的背景，否则无法绘制，因为继承自ConstraintLayout的自定义View，会自动为子视图设置背景。
+        // 如果不设置背景图片，那么ConstraintLayout会使用默认的背景色。
+        this.setBackgroundResource(srcFrontId)
+        mDstBitmap = Bitmap.createBitmap(
+            mSrcFront.width,
+            mSrcFront.height,
+            Bitmap.Config.ARGB_8888
+        )
+        mPath = Path()
+        // 重置透明像素个数
+        transparentCount = 0
+
+        requestLayout()
         invalidate() // 重新绘制View
     }
 }
