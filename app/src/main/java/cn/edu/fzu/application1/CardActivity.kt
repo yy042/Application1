@@ -296,23 +296,17 @@ class CardActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnCardUse.setOnClickListener {
+            val intent = Intent(this, BlankActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onBackPressed() {
         binding.card.rotation=0f
         animationSet.cancel()
         backToMainActivity()
-
-       /* // 创建一个属性动画对象，并设置其target、propertyName、startValue和endValue属性
-        val animator = ObjectAnimator.ofFloat(binding.tvTest, "textSize", 26f, 8f)
-        // 启动属性动画对象
-        animator.start()*/
-
-        /*val backScaleAnimator = ObjectAnimator.ofPropertyValuesHolder(binding.tvTest,
-            PropertyValuesHolder.ofFloat("scaleX", 1f, 1/3f),
-            PropertyValuesHolder.ofFloat("scaleY", 1f, 1/3f)
-        )
-        backScaleAnimator.start()*/
 
         super.onBackPressed() //这句应该放在onBackPressed()的最后，因为它会直接结束当前的Activity，而不会执行后面的代码。
     }

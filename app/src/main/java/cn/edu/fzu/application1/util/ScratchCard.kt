@@ -214,7 +214,7 @@ class ScratchCard @JvmOverloads constructor(
     }
 
     private fun checkScratchRatio() {
-// 如果已经完成，则直接返回
+        // 如果已经完成，则直接返回
         if (mIsCompleted) return
 
         // 计算刮开的百分比
@@ -243,7 +243,7 @@ class ScratchCard @JvmOverloads constructor(
 
                 // 检查像素是否在hand的区域内
                 if (!isInHandArea(x, y)) {
-                    // 如果对应的前景层bitmap的像素不是透明的
+                    // 如果对应的前景层bitmap的像素不是透明的。进行这一步检查，是为了保证每个像素只被计算一次，不会出现重复或遗漏。
                     if (mSrcFront?.getPixel(x, y) != Color.TRANSPARENT) {
                         // 将对应的前景层bitmap的像素设置为透明
                         mSrcFront?.setPixel(x, y, Color.TRANSPARENT)
