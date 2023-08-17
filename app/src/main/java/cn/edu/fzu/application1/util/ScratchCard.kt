@@ -11,11 +11,8 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.ScratchCardBinding
-import cn.edu.fzu.application1.databinding.ViewScratchCardBinding
 
 class ScratchCard @JvmOverloads constructor(
     context: Context,

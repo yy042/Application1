@@ -1,39 +1,26 @@
 package cn.edu.fzu.application1
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.transition.ChangeBounds
-import android.transition.ChangeTransform
-import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.Window
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.edu.fzu.application1.adapter.*
 import cn.edu.fzu.application1.databinding.ActivityMainBinding
-import cn.edu.fzu.application1.entity.*
+import cn.edu.fzu.application1.entity.ItemRecommend
+import cn.edu.fzu.application1.entity.ItemService
+import cn.edu.fzu.application1.entity.ItemTask
+import cn.edu.fzu.application1.entity.ItemWaterfall
 import cn.edu.fzu.application1.util.ImmersiveToolbar
-import cn.edu.fzu.application1.util.MarqueeLayout
 import cn.edu.fzu.application1.util.Util.dpToPx
-import cn.edu.fzu.application1.util.Util.setStatusBarTextColor
 import cn.edu.fzu.application1.util.Util.setupRecyclerView
 import cn.edu.fzu.application1.util.Util.setupSpacingRecyclerView
 import cn.edu.fzu.application1.util.Util.setupWaterfall
-import cn.edu.fzu.application1.util.Util.transparentStatusBar
-import com.gyf.immersionbar.ImmersionBar
 
 class MainActivity : AppCompatActivity() {
 

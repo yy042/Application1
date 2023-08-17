@@ -5,16 +5,13 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.IconTextviewBinding
 import kotlinx.coroutines.*
-
 
 //自定义View类
 class IconTextView(context: Context, attrs: AttributeSet) :

@@ -1,31 +1,22 @@
 package cn.edu.fzu.application1.util
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.provider.Settings
-import android.transition.ChangeBounds
-import android.transition.ChangeTransform
-import android.transition.TransitionSet
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import cn.edu.fzu.application1.CardActivity
 import cn.edu.fzu.application1.R
 import cn.edu.fzu.application1.databinding.ViewDrawPrizeBinding
-import cn.edu.fzu.application1.util.Util.dpToPx
-import com.bumptech.glide.Glide
 
 class DrawPrizeView (context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs){
