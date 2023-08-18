@@ -76,6 +76,8 @@ class ScratchCard @JvmOverloads constructor(
             BitmapFactory.decodeResource(resources, srcResultId)
         mSrcFront =
             BitmapFactory.decodeResource(resources, srcFrontId)
+        // 遮盖刮刮卡的前景图也要设置
+        binding.scratchFront.setImageResource(srcFrontId)
         //必须给view设置与前景图一样的背景，否则无法绘制
         this.setBackgroundResource(srcFrontId)
     }

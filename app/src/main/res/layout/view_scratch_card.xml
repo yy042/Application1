@@ -80,12 +80,12 @@
         android:id="@+id/scratchHand"
         android:layout_width="52dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="14dp"
         android:src="@drawable/pic_scratch_hand"
+        app:layout_constraintVertical_bias=".7"
         app:layout_constraintBottom_toBottomOf="@+id/scratchCard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/scratchCard"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="@+id/btn_scratch"
+        app:layout_constraintTop_toTopOf="@+id/scratchCard" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/scratchTabLayout"

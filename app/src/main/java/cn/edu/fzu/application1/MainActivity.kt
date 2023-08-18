@@ -175,10 +175,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.layoutMarqueeHint.setViewList(views)
 
-        val items =  mutableListOf("欢迎来到幼儿园", "今天是2023年8月17日", "请大家遵守防疫规定", "祝大家开心快乐")
-        binding.layoutMq.setList(items)
-        binding.layoutMq.startScroll()
-
         //设置textSwitcher
         // 创建一个数据列表
         val messages = listOf(
@@ -194,8 +190,6 @@ class MainActivity : AppCompatActivity() {
         marqueeView.startScroll()
         //或者定义刷新的时间
         marqueeView.startScroll(8000)
-
-
     }
 
     private fun inflateView(
