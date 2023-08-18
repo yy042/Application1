@@ -221,7 +221,6 @@ class ScratchCard @JvmOverloads constructor(
         mOnScratchListener = listener
     }
 
-
     fun setSrcResult(drawableId: Int) {
         // decodeResource()方法会根据当前设备的屏幕密度（density）来缩放图片，可能使它的宽度和高度与原始图片的宽高比不一致
         // 所以此处不应该将bitmap赋值给mSrcResult，而应该使用decodeResource()

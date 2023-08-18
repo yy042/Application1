@@ -193,9 +193,11 @@ class CardActivity : AppCompatActivity() {
                     // 配置
                     val options = RequestOptions().skipMemoryCache(true)
                     // 加载gif图片
+                    // 根据drawable id获取Drawable对象
                     Glide.with(getApplicationContext()).asGif()
                         .apply(options) // 应用配置
                         .load(R.drawable.gif_cheer)
+                        .fitCenter() // 使图片宽度适应父布局宽度，且保持宽高比不变
                         .listener(object : RequestListener<GifDrawable> { // 添加监听，设置播放次数
                             override fun onLoadFailed(
                                 e: GlideException?,

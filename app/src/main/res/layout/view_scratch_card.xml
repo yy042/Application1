@@ -68,9 +68,11 @@
 
     <ImageView
         android:id="@+id/btn_scratch"
-        android:layout_width="116dp"
-        android:layout_height="37dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@drawable/pic_btn_scratch"
+        app:layout_constraintWidth_percent=".35"
+        app:layout_constraintDimensionRatio="116:37"
         app:layout_constraintBottom_toBottomOf="@+id/scratchCard"
         app:layout_constraintEnd_toEndOf="@+id/scratchCard"
         app:layout_constraintStart_toStartOf="@+id/scratchCard"
@@ -81,11 +83,11 @@
         android:layout_width="52dp"
         android:layout_height="46dp"
         android:src="@drawable/pic_scratch_hand"
-        app:layout_constraintVertical_bias=".7"
         app:layout_constraintBottom_toBottomOf="@+id/scratchCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/btn_scratch"
-        app:layout_constraintTop_toTopOf="@+id/scratchCard" />
+        app:layout_constraintTop_toTopOf="@+id/btn_scratch"
+        app:layout_constraintVertical_bias=".7" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/scratchTabLayout"

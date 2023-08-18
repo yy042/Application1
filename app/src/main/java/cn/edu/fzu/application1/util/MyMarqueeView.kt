@@ -9,7 +9,8 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 
 // 自定义 View 继承自 LinearLayout
-class MyMarqueeView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class MyMarqueeView(context: Context, attrs: AttributeSet) :
+    LinearLayout(context, attrs) {
 
     // 初始化一个属性动画对象
     private val animator = ValueAnimator()
