@@ -171,9 +171,13 @@ class MainActivity : AppCompatActivity() {
         val views: MutableList<View> = ArrayList()
         val inflater = LayoutInflater.from(this)
         for (i in 0 until count) {
-            views.add(inflateView(inflater, "这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题$i", "金豆$i"))
+            views.add(inflateView(inflater, "加装【副卡】，一份套餐全家用,15GB定向流量+腾讯视频月会员卡", "金豆$i"))
         }
         binding.layoutMarqueeHint.setViewList(views)
+
+        val items =  mutableListOf("欢迎来到幼儿园", "今天是2023年8月17日", "请大家遵守防疫规定", "祝大家开心快乐")
+        binding.layoutMq.setList(items)
+        binding.layoutMq.startScroll()
 
         //设置textSwitcher
         // 创建一个数据列表
@@ -214,7 +218,6 @@ class MainActivity : AppCompatActivity() {
         viewName.isSelected = true
         viewName.setSingleLine()
         viewName.ellipsize = TextUtils.TruncateAt.MARQUEE
-
         viewDesc.text = desc
         return view
     }

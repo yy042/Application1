@@ -1,9 +1,17 @@
 package cn.edu.fzu.application1.util
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import cn.edu.fzu.application1.R
@@ -14,14 +22,24 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlin.random.Random
 
 class ScratchCardView (context: Context, attrs: AttributeSet) :
-    LinearLayout(context, attrs) {
+    ConstraintLayout(context, attrs) {
     //初始化绑定类
     private val binding = ViewScratchCardBinding.inflate(LayoutInflater.from(context), this, true)
     // 定义一个int变量来记录剩余的次数
     private var chanceNum=3
 
+    // 设置手指动画效果
+    private val handMove = ObjectAnimator.ofPropertyValuesHolder(binding.scratchHand,
+        PropertyValuesHolder.ofFloat("translationX",  0f, -30f, 0f),
+        PropertyValuesHolder.ofFloat("translationY",  0f, -30f, 0f)
+    ).apply {
+        duration = 2000 // 设置动画时间为4秒
+        repeatCount = ValueAnimator.INFINITE
+        repeatMode = ValueAnimator.REVERSE
+        interpolator = LinearInterpolator()
+    }
+
     init {
-        orientation = VERTICAL
 
         // 设置ViewPager2
         val pagerAdapter= ViewPagerAdapter(context as FragmentActivity)
@@ -54,6 +72,25 @@ class ScratchCardView (context: Context, attrs: AttributeSet) :
             if (chanceNum == 0) {
                 binding.tvRetry.isEnabled = false // 禁用按钮
             }
+        }
+
+        // 启动小手动画
+        handMove.start()
+
+        // 获取刮刮卡实例，设置接口实现
+        binding.scratchCard.setOnScratchListener(object : ScratchCard.OnScratchListener {
+            override fun onScratch() {
+                // 隐藏小手
+                binding.btnScratch.visibility = View.GONE
+                binding.scratchHand.visibility = View.GONE
+            }
+        })
+
+        // 隐藏“刮一刮”按钮
+        binding.btnScratch.setOnClickListener {
+            // 点击时隐藏ImageView并设置ScratchCard为可刮状态
+            binding.btnScratch.visibility = View.GONE
+
         }
     }
 

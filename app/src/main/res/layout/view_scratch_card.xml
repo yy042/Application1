@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,10 +10,12 @@
     android:padding="12dp">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:gravity="top">
+        android:gravity="top"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,38 +23,35 @@
             android:text="赠送刮奖机会 1 次"
             android:textColor="#333333"
             android:textSize="14sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvChanceNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:text="累计剩余3次"
             android:textColor="#999999"
-            android:textSize="13sp"
-            android:layout_marginLeft="12dp"
-            />
+            android:textSize="13sp" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <ImageView
             android:layout_width="14dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_change"/>
+            android:src="@drawable/ic_change" />
 
         <TextView
             android:id="@+id/tvRetry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:text="再刮一次"
             android:textColor="#999999"
-            android:textSize="12sp"
-            android:layout_marginLeft="3dp"
-            />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -59,22 +59,41 @@
         android:id="@+id/scratchCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcResult="@drawable/pic_scratch_win"
-        app:srcFront="@drawable/layer_scratch_front"
         android:layout_marginTop="9dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcFront="@drawable/layer_scratch_front"
+        app:srcResult="@drawable/pic_scratch_win" />
+
+    <ImageView
+        android:id="@+id/btn_scratch"
+        android:layout_width="116dp"
+        android:layout_height="37dp"
+        android:src="@drawable/pic_btn_scratch"
+        app:layout_constraintBottom_toBottomOf="@+id/scratchCard"
+        app:layout_constraintEnd_toEndOf="@+id/scratchCard"
+        app:layout_constraintStart_toStartOf="@+id/scratchCard"
+        app:layout_constraintTop_toTopOf="@+id/scratchCard" />
+
+    <ImageView
+        android:id="@+id/scratchHand"
+        android:layout_width="52dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="14dp"
+        android:src="@drawable/pic_scratch_hand"
+        app:layout_constraintBottom_toBottomOf="@+id/scratchCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/scratchCard"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/scratchTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        app:layout_constraintBottom_toTopOf="@+id/scratchViewPager"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scratchCard"
         app:tabIndicatorColor="#2A82E4"
         app:tabMaxWidth="0dp"
         app:tabTextColor="@color/black" />
@@ -88,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/scratchTabLayout" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

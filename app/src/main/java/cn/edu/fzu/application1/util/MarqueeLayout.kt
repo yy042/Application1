@@ -154,8 +154,6 @@ class MarqueeLayout : ViewAnimator {
 
     //静态Handler对象，防止内存泄漏
 
-    //静态Handler对象，防止内存泄漏
-
     //不要把handler定义为静态的伴生对象，而是定义为实例对象的属性
 
     //不要在构造函数或init方法中初始化handler对象，而是在onAttachedToWindow方法中初始化

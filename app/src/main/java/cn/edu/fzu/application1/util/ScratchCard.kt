@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -41,24 +42,18 @@ class ScratchCard @JvmOverloads constructor(
     private val mCompleteThreshold = 0.25f
     // 刮奖完成的标志位
     private var mIsCompleted = false
-    // 定义一个变量来记录已经刮开的像素数量
-    private var scratchedCount = 0
+    // 统计透明像素的个数
+    private var transparentCount = 0
+    // 定义一个接口，用来回调按钮的隐藏事件
+    interface OnScratchListener {
+        fun onScratch()
+    }
+    // 添加一个成员变量，用来保存这个接口的实例
+    private var mOnScratchListener: OnScratchListener? = null
 
     //初始化绑定类
     private val binding = ScratchCardBinding.inflate(LayoutInflater.from(context), this, true)
-    // 增加一个ImageView来显示“刮一刮”的图片
-    private val mStartImage: ImageView = binding.btnScratch
 
-    // 设置手指动画效果
-    private val handMove = ObjectAnimator.ofPropertyValuesHolder(binding.scratchHand,
-        PropertyValuesHolder.ofFloat("translationX",  0f, -30f, 0f),
-        PropertyValuesHolder.ofFloat("translationY",  0f, -30f, 0f)
-    ).apply {
-        duration = 2000 // 设置动画时间为4秒
-        repeatCount = ValueAnimator.INFINITE
-        repeatMode = ValueAnimator.REVERSE
-        interpolator = LinearInterpolator()
-    }
 
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
@@ -69,15 +64,6 @@ class ScratchCard @JvmOverloads constructor(
         mPaint.strokeCap = Paint.Cap.ROUND // 端点为圆形
         mPaint.isAntiAlias = true // 抗锯齿
         mPaint.strokeWidth = 30f
-
-        // 设置图片资源和点击事件
-        mStartImage.setOnClickListener {
-            // 点击时隐藏ImageView并设置ScratchCard为可刮状态
-            mStartImage.visibility = View.GONE
-            binding.scratchHand.visibility = View.GONE
-            binding.scratchFront.visibility = View.GONE
-            isScratchable = true
-        }
 
         // 从XML属性获取drawable资源id
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScratchCard)
@@ -92,8 +78,6 @@ class ScratchCard @JvmOverloads constructor(
             BitmapFactory.decodeResource(resources, srcFrontId)
         //必须给view设置与前景图一样的背景，否则无法绘制
         this.setBackgroundResource(srcFrontId)
-
-        handMove.start()
     }
 
     // 测量方法，在这里设置View的宽高为前景层图片的宽高，并调用父类方法
@@ -137,9 +121,6 @@ class ScratchCard @JvmOverloads constructor(
         //画最终呈现的图
         canvas.drawBitmap(mSrcResult, 0f, 0f, mPaint)
 
-        // 更新已刮开的像素数量
-        updateScratchedCount()
-
         // 只有当可以刮卡时才绘制手指轨迹和前景层，否则不绘制，保持原样
         if (isScratchable) {
             val layerId = canvas.saveLayer(
@@ -178,13 +159,11 @@ class ScratchCard @JvmOverloads constructor(
                 parent.requestDisallowInterceptTouchEvent(true)
                 mStartX = event.x
                 mStartY = event.y
-                // 如果ImageView可见，就隐藏ImageView并设置ScratchCard为可刮状态
-                if (mStartImage.visibility == View.VISIBLE) {
-                    mStartImage.visibility = View.GONE
-                    binding.scratchHand.visibility = View.GONE
-                    binding.scratchFront.visibility = View.GONE
-                    isScratchable = true
-                }
+                // 调用接口方法，通知父布局隐藏按钮
+                mOnScratchListener?.onScratch()
+                //首次触碰刮刮卡时，隐藏前景以及设为可刮
+                if(binding.scratchFront.visibility == View.VISIBLE) binding.scratchFront.visibility = View.GONE
+                if(!isScratchable) isScratchable = true
             }
             MotionEvent.ACTION_MOVE -> {
                 // 请求父布局不要拦截事件，让自定义刮卡类处理事件
@@ -214,8 +193,18 @@ class ScratchCard @JvmOverloads constructor(
         // 如果已经完成，则直接返回
         if (mIsCompleted) return
 
+        // 获取覆盖层bitmap的像素数组
+        val pixels = IntArray(bitmapWidth * bitmapHeight)
+        mSrcFront?.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight)
+
+        for (pixel in pixels) {
+            if (pixel == Color.TRANSPARENT) {
+                transparentCount++
+            }
+        }
+
         // 计算刮开的百分比
-        val percent = scratchedCount.toFloat() / (bitmapWidth * bitmapHeight)
+        val percent = transparentCount.toFloat() / pixels.size
 
         // 如果百分比超过了阈值，则认为刮奖完成
         if (percent >= mCompleteThreshold) {
@@ -225,45 +214,11 @@ class ScratchCard @JvmOverloads constructor(
         }
     }
 
-    private fun updateScratchedCount() {
-        // 获取手指轨迹bitmap的像素数组
-        val pixels = IntArray(bitmapWidth * bitmapHeight)
-        mDstBitmap?.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight)
-
-        // 遍历像素数组
-        for (i in pixels.indices) {
-            // 如果像素不透明
-            if (pixels[i] != Color.TRANSPARENT) {
-                // 计算像素在bitmap中的坐标
-                val x = i % bitmapWidth
-                val y = i / bitmapWidth
-
-                // 检查像素是否在hand的区域内
-                if (!isInHandArea(x, y)) {
-                    // 如果对应的前景层bitmap的像素不是透明的。进行这一步检查，是为了保证每个像素只被计算一次，不会出现重复或遗漏。
-                    if (mSrcFront?.getPixel(x, y) != Color.TRANSPARENT) {
-                        // 将对应的前景层bitmap的像素设置为透明
-                        mSrcFront?.setPixel(x, y, Color.TRANSPARENT)
-
-                        // 将已刮开的像素数量加一
-                        scratchedCount++
-                    }
-                }
-            }
-        }
-
+    // 设置这个接口的实例的方法
+    fun setOnScratchListener(listener: OnScratchListener) {
+        mOnScratchListener = listener
     }
 
-    private fun isInHandArea(x: Int, y: Int): Boolean {
-        // 获取hand的位置和大小信息
-        val handX = binding.scratchHand.x.toInt()
-        val handY = binding.scratchHand.y.toInt()
-        val handWidth = binding.scratchHand.width
-        val handHeight = binding.scratchHand.height
-
-        // 判断坐标是否在hand的范围内
-        return x in handX..(handX + handWidth) && y in handY..(handY + handHeight)
-    }
 
     fun setSrcResult(drawableId: Int) {
         // decodeResource()方法会根据当前设备的屏幕密度（density）来缩放图片，可能使它的宽度和高度与原始图片的宽高比不一致
@@ -296,7 +251,7 @@ class ScratchCard @JvmOverloads constructor(
         )
         mPath = Path()
         // 重置透明像素个数
-        scratchedCount = 0
+        transparentCount = 0
 
         requestLayout()
         invalidate() // 重新绘制View

@@ -68,11 +68,8 @@
                     android:textColor="#ea5858"
                     android:textSize="11sp"
                     android:background="@drawable/bg_waterfall_red_label"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginLeft="5dp"/>
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="3dp"/>
 
             </LinearLayout>
             
