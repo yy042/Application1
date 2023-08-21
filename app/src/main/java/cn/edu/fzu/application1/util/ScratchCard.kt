@@ -54,7 +54,6 @@ class ScratchCard @JvmOverloads constructor(
     //初始化绑定类
     private val binding = ScratchCardBinding.inflate(LayoutInflater.from(context), this, true)
 
-
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
         mPaint = Paint()

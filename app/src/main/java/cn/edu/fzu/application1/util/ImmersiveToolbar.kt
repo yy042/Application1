@@ -1,7 +1,6 @@
 package cn.edu.fzu.application1.util
 
 // 导入必要的库
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
@@ -9,10 +8,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import cn.edu.fzu.application1.R
-import cn.edu.fzu.application1.databinding.IconTextviewBinding
 import cn.edu.fzu.application1.databinding.ImmersiveToolbarBinding
 import cn.edu.fzu.application1.util.Util.dpToPx
 import com.gyf.immersionbar.ImmersionBar
@@ -40,6 +37,8 @@ class ImmersiveToolbar @JvmOverloads constructor(
     private var verticalPadding: Int = 0
     private var horizontalPadding: Int = 0
 
+    private var iconWidth: Double = 0.0
+
     // 定义一个ViewBinding的变量
     private var binding: ImmersiveToolbarBinding
 
@@ -54,6 +53,7 @@ class ImmersiveToolbar @JvmOverloads constructor(
         statusBarDarkFont = typedArray.getBoolean(R.styleable.ImmersiveToolbar_statusBarDarkFont, true)
         verticalPadding = typedArray.getDimensionPixelSize(R.styleable.ImmersiveToolbar_verticalPadding,10)
         horizontalPadding = typedArray.getDimensionPixelSize(R.styleable.ImmersiveToolbar_horizontalPadding,10)
+        iconWidth = typedArray.getDimensionPixelSize(R.styleable.ImmersiveToolbar_iconBackWidth,10).toDouble()
 
         typedArray.recycle()
 
@@ -88,7 +88,7 @@ class ImmersiveToolbar @JvmOverloads constructor(
         setBarColor(statusBarColor,statusBarDarkFont)
 
         //设置padding
-        this.setPaddingRelative(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+        setPadding(iconWidth,horizontalPadding,verticalPadding)
 
     }
 
@@ -116,9 +116,15 @@ class ImmersiveToolbar @JvmOverloads constructor(
     }
 
     // 定义一个设置水平方向上的padding的方法，供外部调用
-    fun setHorizontalPadding(padding: Int) {
+    fun setHorizontalPadding(icWidth: Double, padding: Int) {
         horizontalPadding = padding
-        this.setPaddingRelative(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+        iconWidth=icWidth
+
+        binding.ivBack.layoutParams.width = (iconWidth + padding * 2).toInt()
+        binding.ivBack.setPadding(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+
+        binding.tvRight.setPadding(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+
         requestLayout() // 请求重新布局
     }
 
@@ -130,13 +136,27 @@ class ImmersiveToolbar @JvmOverloads constructor(
     // 定义一个设置垂直方向上的padding的方法，供外部调用
     fun setVerticalPadding(padding: Int) {
         verticalPadding = padding
-        this.setPaddingRelative(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+        binding.ivBack.setPaddingRelative(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+        binding.tvRight.setPadding(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
         requestLayout() // 请求重新布局
     }
 
     // 定义一个获取垂直方向上的padding的方法，供外部调用
     fun getVerticalPadding(): Int {
         return verticalPadding
+    }
+
+    // 统一设置横纵padding
+    fun setPadding(icWidth:Double, horiPadding:Int, vertiPadding:Int){
+        iconWidth = icWidth
+        horizontalPadding = horiPadding
+        verticalPadding = vertiPadding
+
+        binding.ivBack.layoutParams.width = (iconWidth + horiPadding * 2).toInt()
+        binding.ivBack.setPadding(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+
+        binding.tvRight.setPadding(horizontalPadding,verticalPadding,horizontalPadding,verticalPadding)
+        requestLayout() // 请求重新布局
     }
 
 }

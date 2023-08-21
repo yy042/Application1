@@ -60,11 +60,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
+        app:srcFront="@drawable/layer_scratch_front"
+        app:srcResult="@drawable/pic_scratch_win"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:srcFront="@drawable/layer_scratch_front"
-        app:srcResult="@drawable/pic_scratch_win" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <ImageView
         android:id="@+id/btn_scratch"

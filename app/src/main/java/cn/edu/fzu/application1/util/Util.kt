@@ -96,6 +96,15 @@ object Util {
         return (this * density + 0.5f).toInt()
     }
 
+    // 定义一个扩展函数，将Int类型的dp值转换为Float类型的px值
+    fun Double.dpToPx(context: Context): Double {
+        // 获取当前屏幕的密度
+        val density = context.resources.displayMetrics.density
+
+        // 根据公式 dp * density + 0.5f 来计算px值，并转换为Float类型
+        return this * density + 0.5f
+    }
+
 
     //将状态栏的背景设置为透明
     fun transparentStatusBar(window: Window) {

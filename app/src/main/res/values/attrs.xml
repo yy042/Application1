@@ -40,6 +40,7 @@
     <declare-styleable name="ImmersiveToolbar">
         <!-- 定义一个标题文本的属性，类型为字符串，可以在布局文件中设置 -->
         <attr name="titleText" format="string" />
+        <attr name="iconBackWidth" format="dimension" />
         <attr name="verticalPadding" format="dimension" />
         <attr name="horizontalPadding" format="dimension" />
         <attr name="statusBarColor" format="color" />

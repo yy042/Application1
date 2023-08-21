@@ -86,12 +86,17 @@ class ScratchCardView (context: Context, attrs: AttributeSet) :
             }
         })
 
-        // 隐藏“刮一刮”按钮
+        // 隐藏“刮一刮”按钮和小手
         binding.btnScratch.setOnClickListener {
             // 点击时隐藏ImageView并设置ScratchCard为可刮状态
             binding.btnScratch.visibility = View.GONE
-
+            binding.scratchHand.visibility = View.GONE
         }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        handMove.cancel() // 在View被销毁时,取消动画并释放资源
     }
 
     // 随机产生刮卡抽奖结果

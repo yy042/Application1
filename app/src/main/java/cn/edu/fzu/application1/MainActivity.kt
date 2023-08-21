@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         //setStatusBarTextColor(window,false)//根据背景色设置状态栏文字颜色
 
         //设置标题栏
-        binding.mainToolbar.setHorizontalPadding(13.dpToPx(this))
+        binding.mainToolbar.setHorizontalPadding(8.5.dpToPx(this), 13.dpToPx(this))
         binding.mainToolbar.setBarColor(R.color.bg_main,true)
         binding.mainToolbar.setTitleText("")
         binding.mainToolbar.setOnBackClickListener(object:ImmersiveToolbar.OnBackClickListener{
